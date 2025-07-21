@@ -1,6 +1,8 @@
 
 {% comment %} {% extends 'base.html' %}  {% endcomment %}
 
+
+
 <style>
     .glass {
       background: rgba(255, 255, 255, 0.15);
@@ -36,6 +38,7 @@
   </style>
 
 
+  
 {% load static %}
 {% include 'navbar.html'%}
  <script src="https://cdn.tailwindcss.com"></script>
@@ -48,13 +51,13 @@
 {% block about_content %} 
 
 <section
-  class="relative py-16 px-8 overflow-hidden text-white bg-gradient-to-br from-blue-50 to-white"
+  class="relative py-16 px-8 overflow-hidden text-white bg-[var[--sec-background-color]"
   style="">
 
   <div class="max-w-7xl mx-auto relative z-20 grid md:grid-cols-2 gap-12 items-center">
    
     <div class="p-8 bg-white bg-opacity-90 rounded-xl shadow-lg backdrop-blur-lg hover:scale-105 transform transition duration-300 ease-in-out">
-      <h2 class="text-4xl font-[var(--font-main)] dark:text-black mb-4">About Us</h2>
+      <h2 class="text-4xl font-[var(--font-main)] text-[var(--text-color)] mb-4">About Us</h2>
       <p class="dark:text-black mb-6 text-lg font-[var(--font-main)]">
         We craft innovative digital experiences that elevate your brand and inspire your audience. Our passionate team leverages creativity and cutting-edge technology to bring your vision to life with precision and style.
       </p>
@@ -109,11 +112,6 @@
   </div>
 </section>
 
-
-
-
-
-  
 
 
 <body class="  bg-gradient-to-br from-blue-50 to-white  min-h-screen text-black">

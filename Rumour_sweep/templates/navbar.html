@@ -30,63 +30,34 @@
 
 
 
-<nav class="text-gray-700 shadow-md  top-0 z-50 h-20"> 
-  
 
-       <div class=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<nav class="bg-[var(--background-color)] shadow-sm sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-[80px]">
 
-         <div class="flex items-center justify-between h-16">
-      <!-- Left: Brand -->
-              <div class="flex items-center space-x-3">
-                  <span>
-                      <img class="h-21 w-[170px] mt-4" src="{% static 'images/logo.png' %}" alt="Logo" />
+      <!-- Left: Logo -->
+      <div class="flex-shrink-0">
+        <a href="{% url 'home' %}">
+          <img class="h-21 w-[170px] mt-4" src="{% static 'images/logo.png' %}" alt="Logo"/></a>
+      </div>
 
-                    </span>
-                </div>
+      <!-- Center: Links (hidden on small) -->
+      <div class="hidden md:flex space-x-10 mx-auto">
+        <a href="{% url 'output' %}" class="nav-link text-[var(--text-color)] font-medium">Verify</a>
+        <a href="{% url 'about' %}" class="nav-link text-[var(--text-color)]  font-medium">About</a>
+        <a href="{% url 'contact' %}" class="nav-link text-[var(--text-color)]  font-medium">Contact</a>
+      </div>
 
-      <!-- Center: Navigation Links -->
-                       <div class="hidden sm:flex space-x-12 items-center  text-[var(--text-color)] sticky top-0 z-50">
-                          <a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}text-blue-600 active{% else %}hover:text-blue-600{% endif %}">Home</a>
-                            
+      <!-- Right: Signup Button and Toggle -->
+      <div class="flex items-center space-x-6">
+        <button class="hidden md:inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">Signup</button>
 
-                          <a href="{% url 'output' %}" class="nav-link {% if request.path == '/output/' %}text-blue-600 active{% else %}hover:text-blue-600{% endif %} transition pb-1">
-                          Verify</a>
-
-                          <a href="{% url 'about' %}" class="nav-link {% if request.path == '/about/' %}text-blue-600 active{% else %}hover:text-blue-600{% endif %} transition pb-1">
-                            About</a>
-
-                          <a href="{% url 'learn' %}" class="nav-link {% if request.path == '/learn/' %}text-blue-600 active{% else %}hover:text-blue-600{% endif %} transition pb-1">
-                          Learn</a>
-
-                          <a href="{% url 'contact' %}" class="nav-link {% if request.path == '/contact/' %}text-blue-600 active{% else %}hover:text-blue-600{% endif %} transition pb-1">
-                            Contact</a>
-
-                        </div>
-                      
-
-  <!-- Left Text -->
-                             <div class="text-lg font-semibold flex flex-row justify-center gap-x-4">
-                                
-
-                               <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm
-                                px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                                onclick="window.location.href='{% url 'signup' %}'"> Sign up</button>
-
-
-
-                                <button id="dark-toggle" class="text-black hover:text-indigo-400 transition text-xl">
-                                <i class="fas fa-moon"></i>
-                                </button>
-                              
-
-
-      
+        <!-- Toggle Button -->
+        <button  onclick="toggleTheme()"
+        class=" text-black  ">
+           <i class="fas fa-moon"></i>
+        </button>
+      </div>
     </div>
   </div>
 </nav>
-
-
-
-
-
-  

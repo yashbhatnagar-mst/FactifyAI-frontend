@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="Light">
   <head>
     <meta charset="UTF-8" />
     <title>{% block title %}Fake website {% endblock %}</title>
@@ -21,7 +21,13 @@
     
   </head>
 
-  <body class=" bg-gradient-to-br from-blue-50 to-white ">
+   <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+
+  <body class=" bg-[var(--background-color)] text-[var(--text-color)] transition-all duration-300">
 
      {% include 'navbar.html'%}
      {% include 'home.html' %} 
@@ -34,15 +40,12 @@
 
 <script>
       function toggleTheme() {
-        const body = document.getElementById("page");
-        if (body.classList.contains("bg-white")) {
-          body.classList.remove("bg-white", "text-black");
-          body.classList.add("bg-black", "text-white");
-        } else {
-          body.classList.remove("bg-black", "text-white");
-          body.classList.add("bg-white", "text-black");
-        }
-      }
+        const html = document.documentElement;
+      const current = html.getAttribute("data-theme") || "light";
+      html.setAttribute("data-theme", current === "dark" ? "Light" : "dark");
+    }
+        
+      
 </script>
 
 </body>

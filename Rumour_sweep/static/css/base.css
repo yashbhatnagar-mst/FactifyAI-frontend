@@ -1,21 +1,30 @@
 
 
   :root {
-  --primary-color:#8a4af3;    
-  --secondary-color: #f59e0b;   
-  --background-color: white;   
+  --primary-color:#8a4af3;       
+  --background-color:#ffffff;
+  --sec-background-color:'bg-gradient-to-br from-blue-50 to-white';    
   --text-color: #060606;       
   --error-color: #ef4444;      
-  --font-main:'Pp_Neue_Machina';
+  --font-main:'inter',sans-serif;
 } 
 
  body {
-  font-family: var(--font-main);
+  font-family:var(--font-main);
   background-color: var(--background-color);
   color: var(--text-color);
 } 
 
 
+[data-theme="dark"] {
+  --background-color: #111827;
+  --sec-background-color:#111827;
+  --text-color: #ffffff;
+  --primary-color:#8a4af3;          
+  --text-color:  #ffffff;       
+  --error-color: #ef4444;      
+  --font-main:'inter',sans-serif;
+}
 
 html {
   scroll-behavior: smooth;
