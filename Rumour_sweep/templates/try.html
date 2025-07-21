@@ -1,0 +1,178 @@
+
+           /* 
+ .nav-link {
+    position: relative;
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background-color: #1a74cd; 
+    transition: width 0.4s ease;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 100%;
+  } */
+  
+
+
+
+  /* ---------- Reusable Button Class ---------- */
+
+
+
+
+/* 
+ .nav-link {
+    position: relative;
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background-color: #1a74cd;  or white if dark background */
+    /* transition: width 0.4s ease;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 100%;
+  }
+   */ 
+
+
+profile se image ke liye navbar.html 
+
+      {% comment %} <a href="{% url 'home' %}" class="text-gray-700 hover:text-purple-600">
+  <img src="{% static 'images/default-user.png' %}" alt="Default User" class="h-8 w-8 rounded-full" />
+</a> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="bg-white shadow sticky top-0 z-50 min-height:4rem">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <img
+          class="h-15 w-36 object-contain"
+          src="{% static 'images/logo.png' %}"
+          alt="Logo"
+        />
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="hidden sm:flex space-x-12 items-center  text-[var(--text-color)] sticky top-0 z-50">
+        <a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}text-blue-600 active{% else %}hover:text-blue-600{% endif %} transition pb-1">Home</a>
+
+        <a href="{% url 'output' %}" class="nav-link {% if request.path == '/output/' %}text-blue-600 active{% else %}hover:text-blue-600{% endif %} transition pb-1">Verify</a>
+
+        <a href="{% url 'about' %}" class="nav-link {% if request.path == '/about/' %}text-blue-600 active{% else %}hover:text-blue-600{% endif %} transition pb-1">About</a>
+
+        <a href="{% url 'learn' %}" class="nav-link {% if request.path == '/learn/' %}text-blue-600 active{% else %}hover:text-blue-600{% endif %} transition pb-1">Learn</a>
+
+        <a href="{% url 'contact' %}" class="nav-link {% if request.path == '/contact/' %}text-blue-600 active{% else %}hover:text-blue-600{% endif %} transition pb-1">Contact</a>
+      </div>
+
+
+      <!-- Right Button -->
+      <div class="flex items-center space-x-4">
+
+        
+        <!-- Profile Icon -->
+
+        {% if user.is_authenticated %}
+          <a href="{% url 'output' %}" class="text-gray-700 hover:text-purple-600">
+            <img src="{% static 'images/user.png' %}" alt="user" class="h-8 w-8 rounded-full"/>
+
+          </a>
+
+        {% else %}
+          <!-- Get Started Button -->
+          <a href="{% url 'home' %}" class="btn bg-black text-white">Get Started </a>
+        {% endif %}
+
+        <button id="modeToggle" class="text-xl font-bold px-4 py-2 rounded transition duration-300 "
+          style="color:black">
+          <i id="modeIcon" class="fas fa-moon"></i>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+<div class="flex justify-center sm:justify-start">
+              
+                    <a href="{% url 'signup' %}"
+                     class="glow-on-hover text-white font-semibold px-6 py-3 rounded-md hover:bg-gray-200 transition-all"
+                     style="background-color:black">
+                     Get Started
+                    </a>
+        
+            </div>
+
+
+
+
+            navbar links 
+
+            {% comment %} 
+  <nav class="bg-white dark:bg-black text-black dark:text-white shadow sticky top-0 z-50 h-16 font-[var(--font-main)]">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex items-center space-x-2 color-white">
+           <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-32 w-auto  color-teal-100" />
+         </div>
+    
+        <div class="hidden md:flex items-center space-x-4">
+          
+          <a href="{% url 'home' %}" class="nav-link px-3 py-2"> Home </a>
+          <a href="{% url 'output' %}" class="nav-link px-3 py-2">verify</a>
+          <a href="{% url 'about' %}" class="nav-link px-3 py-2">About</a>
+          <a href="{% url 'learn' %}" class="nav-link px-3 py-2">Learn</a>
+          <a href="{% url 'contact' %}" class="nav-link px-3 py-2">Contact</a>
+                   
+        </div>   
+   
+</nav> {% endcomment %
+
+

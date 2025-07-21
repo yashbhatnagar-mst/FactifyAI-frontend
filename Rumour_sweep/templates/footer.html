@@ -1,0 +1,100 @@
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+  <div class="bg-[var(--bg-color)]">
+  <section
+    id="features"
+    class="relative block px-6 py-10 md:py-20 md:px-10 border-t border-b border-[var(--border-color)] bg-[var(--bg-secondary-color)]/30 mt-10"
+  >
+    <div class="relative mx-auto max-w-5xl text-center">
+      <span
+        class="text-3xl text-[var(--text-light)] my-3 flex items-center justify-center font-semibold uppercase tracking-wider"
+      >
+        Why choose us
+      </span>
+
+      <h2
+        class="block w-full bg-gradient-to-b from-white to-[var(--text-light)] bg-clip-text font-bold text-transparent text-3xl sm:text-4xl"
+      >
+        Build a Website That Your Customers Love
+      </h2>
+      <p
+        class="mx-auto my-4 w-full max-w-xl bg-transparent text-center font-medium leading-relaxed tracking-wide text-2xl text[var(--text-light)]"
+      >
+        Our templates allow for maximum customization. No technical skills required - our intuitive design tools let you get the job done easily.
+      </p>
+    </div>
+
+    <div class="relative mx-auto max-w-7xl z-10 grid grid-cols-1 gap-10 pt-14 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- Card 1 -->
+      <div class="rounded-md border border-[var(--primary-color)] bg-[var(--card-bg)] p-8 text-center shadow transform hover:scale-105 transition duration-300">
+        <div
+          class="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border"
+          style="background: var(--gradient-primary); border-color: var(--primary-color)"
+        >
+         <i class="fas fa-palette text-indigo-500 text-3xl"></i>
+        </div>
+        <h3 class="mt-6 text-[var(--text-light)]">Customizable</h3>
+        <p class="my-4 mb-0 font-normal leading-relaxed tracking-wide text-[var(--text-light)]">
+          Tailor your landing page's look and feel, from the color scheme to the font size, to the design of the page.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="rounded-md border border-[var(--primary-color)] bg-[var(--card-bg)] p-8 text-center shadow transform hover:scale-105 transition duration-300">
+        <div
+          class="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border"
+          style="background: var(--gradient-primary); border-color: var(--primary-color)"
+        >
+          <i class="fas fa-bolt text-indigo-500 text-3xl"></i>
+        </div>
+        <h3 class="mt-6 text-[var(--text-light)]">Fast Performance</h3>
+        <p class="my-4 mb-0 font-normal leading-relaxed tracking-wide text-[var(--text-light)]">
+          We build our templates for speed in mind, for super-fast load times so your customers never waver.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="rounded-md border border-[var(--primary-color)] bg-[var(--card-bg)] p-8 text-center shadow transform hover:scale-105 transition duration-300">
+        <div
+          class="button-text mx-auto flex h-12 w-12 items-center justify-center rounded-md border"
+          style="background: var(--gradient-primary); border-color: var(--primary-color)"
+        >
+          <i class="fas fa-tools text-indigo-500 text-3xl"></i>
+        </div>
+        <h3 class="mt-6 text-[var(--text-light)]">Fully Featured</h3>
+        <p class="my-4 mb-0 font-normal leading-relaxed tracking-wide text-[var(--text-light)]">
+          Everything you need to succeed and launch your landing page, right out of the box. No need to install anything else.
+        </p>
+      </div>
+    </div>
+
+    <!-- Gradient Bottom Borders -->
+    
+
+    
+   
+  </section>
+   <footer class="dark:bg-black text-white py-4 px-3 h-15 w-[100%]">
+    <div class="container mx-auto flex flex-wrap items-center justify-between">
+        <div class="w-full md:w-1/2 md:text-center md:mb-0 mb-8">
+            <p class="text-xs text-white md:text-sm">Copyright 2020 &copy; All Rights Reserved</p>
+        </div>
+        <div class="w-full md:w-1/2 md:text-center md:mb-0 mb-8">
+            <ul class="list-reset flex justify-center flex-wrap text-xs md:text-sm gap-3">
+                <li><a href="#" class="text-white hover:text-blue-500">Contact</a></li>
+                <li class="mx-4"><a href="#" class="text-white hover:text-blue-500">Privacy Policy</a></li>
+                <li><a href="#" class="text-white hover:text-blue-500">Terms of Use</a></li>
+            </ul>
+        </div>
+    </div>
+  </footer>
+  
+</div>
+
+
+
+
+

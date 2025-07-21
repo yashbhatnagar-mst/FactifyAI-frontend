@@ -1,0 +1,39 @@
+.venv
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+*.pot
+*.pyc
+
+# Django
+*.egg-info/
+.env
+.venv/
+venv/
+env/
+db.sqlite3
+
+
+
+# Static files
+/static/
+/staticfiles/
+
+# Frontend
+node_modules/
+dist/
+build/
+.cache/
+*.lock
+
+# Editors & OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

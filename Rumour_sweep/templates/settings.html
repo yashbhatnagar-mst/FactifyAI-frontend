@@ -1,0 +1,72 @@
+
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Settings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Account Settings</h2>
+
+   {% if messages %}
+  {% for message in messages %}
+    <div class="p-3 rounded text-white
+         {% if message.tags == 'success' %} bg-green-500
+         {% elif message.tags == 'warning' %} bg-yellow-500
+         {% elif message.tags == 'error' %} bg-red-500
+         {% else %} bg-gray-500 {% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+    <!-- Settings Form -->
+    <form method="POST" action="">
+      {% csrf_token %}
+
+      <!-- Language -->
+      <label class="block mb-2 font-medium text-gray-700">Language</label>
+      <select name="language" class="w-full mb-4 px-4 py-2 border rounded">
+        <option value="en" {% if language == 'en' %}selected{% endif %}>English</option>
+        <option value="hi" {% if language == 'hi' %}selected{% endif %}>Hindi</option>
+        <option value="es" {% if language == 'es' %}selected{% endif %}>Spanish</option>
+      </select>
+
+      <!-- Privacy Mode -->
+      <div class="flex items-center mb-6">
+        <input type="checkbox" name="privacy" id="privacy" class="mr-2" {% if privacy_mode %} checked {% endif %}>
+        <label for="privacy" class="text-gray-700">Enable Privacy Mode</label>
+      </div>
+
+      <button type="submit" class="w-full mb-6 bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
+        Save Changes
+      </button>
+    </form>
+
+    <!-- Change Password -->
+    <a href="{% url 'change_password' %}" class="block w-full text-left mb-4 px-4 py-2 text-indigo-600 border border-indigo-500 rounded hover:bg-indigo-50">
+      Change Password
+    </a>
+
+    <!-- Delete Account -->
+    <form method="POST" action="{% url 'delete_account' %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
+      {% csrf_token %}
+      <button type="submit" class="w-full px-4 py-2 text-red-600 border border-red-500 rounded hover:bg-red-50">
+        Delete Account
+      </button>
+    </form>
+
+    <!-- Back -->
+    <div class="mt-6 text-center">
+      <a href="{% url 'home' %}" class="text-gray-600 hover:underline">← Back to Home</a>
+    </div>
+  </div>
+
+</body>
+</html>

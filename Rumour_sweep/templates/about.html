@@ -1,0 +1,215 @@
+
+{% comment %} {% extends 'base.html' %}  {% endcomment %}
+
+<style>
+    .glass {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .scrolling-wrapper {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .scrolling-content {
+      display: flex;
+      width: max-content;
+      animation: scroll 30s linear infinite;
+    }
+
+    .scrolling-content > .card {
+      flex-shrink: 0;
+      margin-right: 2rem;
+    }
+  </style>
+
+
+{% load static %}
+{% include 'navbar.html'%}
+ <script src="https://cdn.tailwindcss.com"></script>
+  <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+
+{% block about_content %} 
+
+<section
+  class="relative py-16 px-8 overflow-hidden text-white bg-gradient-to-br from-blue-50 to-white"
+  style="">
+
+  <div class="max-w-7xl mx-auto relative z-20 grid md:grid-cols-2 gap-12 items-center">
+   
+    <div class="p-8 bg-white bg-opacity-90 rounded-xl shadow-lg backdrop-blur-lg hover:scale-105 transform transition duration-300 ease-in-out">
+      <h2 class="text-4xl font-[var(--font-main)] dark:text-black mb-4">About Us</h2>
+      <p class="dark:text-black mb-6 text-lg font-[var(--font-main)]">
+        We craft innovative digital experiences that elevate your brand and inspire your audience. Our passionate team leverages creativity and cutting-edge technology to bring your vision to life with precision and style.
+      </p>
+      <div class="space-y-6">
+        <!-- Card for each feature -->
+        <div class="flex items-center space-x-4 p-4 bg-gradient-to-br from-blue-50 to-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+          <div class="p-3 bg-white rounded-full shadow-lg hover:scale-110 transform transition duration-300">
+            <!-- Icon: Users -->
+            <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17 20v-2a4 4 0 00-4-4H9a4 4 0 00-4 4v2H17z" />
+              <circle cx="12" cy="8" r="4" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold font-[var(--font-main)] dark:text-black">Dedicated Team</h3>
+            <p class="dark:text-black text-sm font-[var(--font-main)]">A passionate group of experts committed to delivering excellence in every project.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-4 p-4 bg-gradient-to-tr from-blue-50 to-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+          <div class="p-3 bg-white rounded-full shadow-lg hover:scale-110 transform transition duration-300">
+            <!-- Icon: Lightbulb -->
+            <svg class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M9 21h6v-1H9v1zm3-18a4 4 0 00-4 4c0 1.38.56 2.63 1.46 3.54A5.978 5.978 0 009 12h6a5.978 5.978 0 00-1.46-3.46A4 4 0 0015 7a4 4 0 00-4-4z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold dark:text-black">Innovative Approach</h3>
+            <p class="dark:text-black text-sm">We embrace creativity and technology to craft unique solutions tailored for you.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-4 p-4 bg-gradient-to-tr from-blue-50 to-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+          <div class="p-3 bg-white rounded-full shadow-lg hover:scale-110 transform transition duration-300">
+            <!-- Icon: User Group -->
+            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M16 14c-1.33 0-2.53.53-3.41 1.39A4.993 4.993 0 0012 20c1.33 0 2.53-.53 3.41-1.39A4.993 4.993 0 0016 14zM8 14c-1.33 0-2.53.53-3.41 1.39A4.993 4.993 0 004 20c1.33 0 2.53-.53 3.41-1.39A4.993 4.993 0 008 14zM12 4c-2.21 0-4 1.79-4 4 0 1.66 1.34 3 3 3h2c1.66 0 3-1.34 3-3 0-2.21-1.79-4-4-4z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold dark:text-black">Customer Centric</h3>
+            <p class="dark:text-black text-sm">Your satisfaction is our priority — we listen, adapt, and deliver beyond expectations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="relative p-4">   
+      <img src="{% static 'images/ai.gif' %}"/>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+  
+
+
+<body class="  bg-gradient-to-br from-blue-50 to-white  min-h-screen text-black">
+
+  <section class="py-16 px-6 max-w-full mx-auto text-center">
+    <h2 class="text-5xl font-semibold mb-10 drop-shadow-lg">Meet Our Awesome Developers</h2>
+
+    <div class="scrolling-wrapper">
+      <div class="scrolling-content">
+
+        <!-- All 5 cards (x2 for smooth loop) -->
+        {% for _ in "12" %}
+
+        <!-- Card 1 -->
+        <div class="card glass rounded-3xl p-6 text-center shadow-xl w-80">
+          <img src="{% static 'images/nitish_panda.jpg' %}" alt="Divyanshi" class="mx-auto w-32 h-32 object-cover rounded-full mb-4" />
+          <h3 class="text-2xl font-semibold">Divyanshi Vishnoi</h3>
+          <p class="text-sm text-black-500">Backend Developer</p>
+          <div class="mt-4 flex justify-center space-x-4 text-black text-lg">
+            <a href="#" class="hover:text-blue-400"><i class="fab fa-github"></i></a>
+            <a href="#" class="hover:text-blue-500"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card glass rounded-3xl p-6 text-center shadow-xl w-80">
+          <img src="{% static 'images/nitish_panda.jpg' %}" alt="Nitish" class="mx-auto w-32 h-32 object-cover rounded-full mb-4" />
+          <h3 class="text-2xl font-semibold">Nitish Chauhan</h3>
+          <p class="text-sm text-black-500">Backend Developer</p>
+          <div class="mt-4 flex justify-center space-x-4 text-black text-lg">
+            <a href="#" class="hover:text-blue-400"><i class="fab fa-github"></i></a>
+            <a href="#" class="hover:text-blue-500"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="hover:text-pink-400"><i class="fab fa-dribbble"></i></a>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card glass rounded-3xl p-6 text-center shadow-xl w-80">
+          <img src="{% static 'images/nitish_panda.jpg' %}" alt="Aditi" class="mx-auto w-32 h-32 object-cover rounded-full mb-4" />
+          <h3 class="text-2xl font-semibold">Aditi Veniwal</h3>
+          <p class="text-sm text-black-500">Backend Developer</p>
+          <div class="mt-4 flex justify-center space-x-4 text-black text-lg">
+            <a href="#" class="hover:text-blue-400"><i class="fab fa-github"></i></a>
+            <a href="#" class="hover:text-blue-500"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="hover:text-pink-400"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="card glass rounded-3xl p-6 text-center shadow-xl w-80">
+          <img src="{% static 'images/nitish_panda.jpg' %}" alt="Ankush" class="mx-auto w-32 h-32 object-cover rounded-full mb-4" />
+          <h3 class="text-2xl font-semibold">Ankush Chauhan</h3>
+          <p class="text-sm text-black-500">Frontend Developer</p>
+          <div class="mt-4 flex justify-center space-x-4 text-black text-lg">
+            <a href="#" class="hover:text-blue-400"><i class="fab fa-github"></i></a>
+            <a href="#" class="hover:text-blue-500"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="hover:text-pink-400"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="card glass rounded-3xl p-6 text-center shadow-xl w-80">
+          <img src=" {% static 'images/nitish_panda.jpg' %}" alt="Nischal" class="mx-auto w-32 h-32 object-cover rounded-full mb-4" />
+          <h3 class="text-2xl font-semibold">Nischal Sharma</h3>
+          <p class="text-sm text-black-500">Frontend Developer</p>
+          <div class="mt-4 flex justify-center space-x-4 text-black text-lg">
+            <a href="#" class="hover:text-blue-400"><i class="fab fa-github"></i></a>
+            <a href="#" class="hover:text-blue-500"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="hover:text-pink-400"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+</body>
+
+
+
+{% endblock %}
+
+{% include 'footer.html' %}
+    
+        
+       
+
+
+        
+        
+   
+
+    
+
+
+
+

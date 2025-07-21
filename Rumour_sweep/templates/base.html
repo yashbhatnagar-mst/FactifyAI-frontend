@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Fake website {% endblock %}</title>
+    <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- Static CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/container.css' %}"/>
+    
+  </head>
+
+  <body class=" bg-gradient-to-br from-blue-50 to-white ">
+
+     {% include 'navbar.html'%}
+     {% include 'home.html' %} 
+     {% include 'container.html'%}
+     {% include 'middle.html'%} 
+      {% include 'footer.html' %} 
+
+
+
+
+<script>
+      function toggleTheme() {
+        const body = document.getElementById("page");
+        if (body.classList.contains("bg-white")) {
+          body.classList.remove("bg-white", "text-black");
+          body.classList.add("bg-black", "text-white");
+        } else {
+          body.classList.remove("bg-black", "text-white");
+          body.classList.add("bg-white", "text-black");
+        }
+      }
+</script>
+
+</body>
+
+
+
+</html>

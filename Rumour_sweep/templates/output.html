@@ -1,0 +1,178 @@
+ 
+{% load static %}
+
+{% include 'navbar.html' %}
+ <script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+
+<div class="flex items-center gap-4 mb-6 justify-center ">
+    <img src="{% static 'images/ai.gif' %}" alt="AI" class="w-20 h-20 mt-3" />
+      <h2 class="text-2xl font-semibold font-[var(--font-main)]">
+        Analyze the credibility of a news article
+     </h2>
+</div>
+
+<main class="max-w-4xl mx-auto p-6 rounded-lg shadow-lg space-y-3  bg-gradient-to-br from-blue-50 to-white ">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label class="block text-lg font-semibold mb-2">Enter News Content</label>
+        <div class="relative">
+             <textarea id="news-text" name="text" rows="5" required
+                class="w-full rounded border border-gray-300 bg-gray-50 p-4 pr-24 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Paste or type your news content here...">
+               </textarea>
+
+            <!-- Icons inside prompt box -->
+               <div class="absolute top-2 right-2 flex space-x-2">
+                <label for="image-upload" title="Upload Image">
+                  <i class="fa-solid fa-images"></i>
+                </label>
+
+                <input id="image-upload" name="image" type="file" accept="image/*" class="hidden" />
+                <button type="button" title="Start Voice Input" id="voice-btn">
+                  <i class="fa-solid fa-microphone"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- URL Input Field -->
+        <div class="mt-6">
+            <label class="block text-lg font-semibold mb-1" for="url-input">URL here (optional)</label>
+            <input name="url" id="url-input" type="url" placeholder="Paste the news article URL"
+                class="w-full rounded border border-gray-300 bg-gray-50 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <!-- Credibility Score -->
+        <section id="skills" class="mb-20 animate-fade-in-up" style="animation-delay: 0.4s;">
+            <div class="max-w-4xl mx-auto space-y-6 mt-5">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">Analysis Results</h3>
+                    <p class="text-gray-700">
+                        Based on our analysis, this article has a moderate level of credibility. While some sources
+                        are cited, further investigation into the claims is recommended.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    
+                        <div class="flex justify-between mb-1">
+                            <span>Credibility Score </span>
+                            <span>90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-blue-500 h-3 rounded-full skill-bar" style="width: 90%;"></div>
+                        </div>
+                    </div>
+
+
+                    <h3 class="text-xl font-semibold mt-3">Key Findings</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600"><i class="fa-solid fa-check text-green-600"></i></span>
+                            <span>
+                                <strong>Source Reliability:</strong> The article cites multiple sources, but their
+                                reliability varies.
+                            </span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600"><i class="fa-solid fa-check text-green-600"></i></span>
+                            <span>
+                                <strong>Language Analysis:</strong> The language used is generally neutral, but some
+                                emotionally charged words are present.
+                            </span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-600"><i class="fa-solid fa-check text-green-600"></i></span>
+                            <span>
+                                <strong>Evidence and Claims:</strong> The article covers a complex topic, and some
+                                claims lack sufficient evidence.
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+            
+
+                <!-- Recommendations -->
+                {% comment %} <div>
+                    <h3 class="text-xl font-semibold mb-2">Recommendations</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li><i class="fa-solid fa-magnifying-glass"></i> Cross-reference information with other reputable news sources.</li>
+                        <li><i class="fa-solid fa-magnifying-glass"></i> Investigate the sources cited in the article to assess their credibility.</li>
+                        <li><i class="fa-solid fa-magnifying-glass"></i> Be cautious of emotionally charged language and potential biases.</li>
+                    </ul>
+                </div> {% endcomment %}
+            </div>
+
+        
+
+        {% comment %} <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+            <!-- Dropdown menu -->
+            <div id="dropdown-menu"
+                class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5"
+                role="menu">
+                <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300"
+                    role="menuitem">Your Profile</a>
+                <a href="{% url 'settings'%}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300"
+                    role="menuitem">Settings</a>
+                <a href="{% url 'home' %}" class="block px-4 py-2 text-sm text-gray-700  hover:bg-gray-300"
+                    role="menuitem">Sign out</a>
+            </div>
+        </div> {% endcomment %}
+
+                  </main>
+
+               <!-- Key Findings -->
+                     
+                    
+        </div>
+        
+
+
+        {% comment %} <script>
+
+            const profileBtn = document.getElementById("profile-button");
+            const dropdownMenu = document.getElementById("dropdown-menu");
+
+            profileBtn.addEventListener("click", () => {
+                dropdownMenu.classList.toggle("hidden");
+            });
+
+            // Optional: Close dropdown when clicking outside
+            document.addEventListener("click", (event) => {
+                if (!profileBtn.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.add("hidden");
+                }
+            });
+
+        </script>
+
+        <script>
+            const signUpButton = document.getElementById('signUp');
+            const signInButton = document.getElementById('signIn');
+            const container = document.getElementById('container');
+
+            signUpButton.addEventListener('click', () => {
+                container.classList.add("right-panel-active");
+            });
+
+            signInButton.addEventListener('click', () => {
+                container.classList.remove("right-panel-active");
+            });
+        </script> =
+
+         {% endcomment %}

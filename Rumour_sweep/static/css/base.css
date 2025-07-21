@@ -1,0 +1,28 @@
+
+
+  :root {
+  --primary-color:#8a4af3;    
+  --secondary-color: #f59e0b;   
+  --background-color: white;   
+  --text-color: #060606;       
+  --error-color: #ef4444;      
+  --font-main:'Pp_Neue_Machina';
+} 
+
+ body {
+  font-family: var(--font-main);
+  background-color: var(--background-color);
+  color: var(--text-color);
+} 
+
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+
+
+
+
