@@ -16,7 +16,7 @@ urlpatterns = [
     path('forgot/',views.forgot_page,name="forgot"),
     path('verification/',views.verfication_page,name="verification"),
     path('new_password/',views.new_password_page,name="new_password"),
-    path('change-password/', views.CustomPasswordChangeView.as_view(),name='change'),
+    path('change_pass/', views.CustomPasswordChangeView,name='change_pass'),
      
 
     # path('change_password/',views.new_password_page,name="change_password"),

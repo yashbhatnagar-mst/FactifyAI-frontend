@@ -1,7 +1,66 @@
 {% load static %}
 
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/home.css' %}"/>
+
+
+  <style> 
+.button {
+  text-decoration: none;
+  line-height: 1;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  color: #121212;
+  border: none;
+  cursor: pointer;
+}
+
+.button-decor {
+  position: absolute;
+  inset: 0;
+  background-color: var(--clr);
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+  z-index: 0;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+.button__icon {
+  width: 48px;
+  height: 40px;
+  background-color: var(--clr);
+  display: grid;
+  place-items: center;
+}
+
+.button__text {
+  display: inline-block;
+  transition: color 0.2s;
+  padding: 2px 1.5rem 2px;
+  padding-left: 0.75rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.button:hover .button__text {
+  color: #fff;
+}
+
+.button:hover .button-decor {
+  transform: translate(0);
+}
+</style>
 
 <section class="relative w-full min-h-[65vh]  bg-[var(--background-color)]">
   <div
@@ -9,25 +68,11 @@
   >
 
 
-  <!-- From Uiverse.io by kennyotsu --> 
-
-   {% comment %} <div class="loader">
-    <p>loading</p>
-    <div class="words">
-      <span class="word">buttons</span>
-      <span class="word">forms</span>
-      <span class="word">switches</span>
-      <span class="word">cards</span>
-      <span class="word">buttons</span>
-    </div>
-  </div> {% endcomment %}
-
-
     <h1
       class="text-[var(--font-main)] text-[var(--text-color)] text-8xl md:text-7xl  mt-15 leading-tight text-center"
     >
       Fight Fake News with Just <br />
-      <span class="text-blue-500 text-[var(--text-color)] mt-3 inline-block"> One Click</span>
+      <span class="text-blue-500  mt-3 inline-block"> One Click</span>
     </h1>
 
     <p class="text-xl max-w-lg text-[var(--text-color)]">
@@ -35,11 +80,15 @@
       technology. Stay informed, stay confident.
     </p>
 
-    <button
-      class="font-[var(--font-main)] py-3 px-8 bg-indigo-600 text-white rounded-lg text-lg hover:bg-indigo-900 transition"
-      onclick="window.location.href='{% url 'signup' %}'"
-    >
-      Get Started <i class="fas fa-arrow-right text-white"></i>
-    </button>
+<button class="button" style="--clr:#3B82F6"; onclick="window.location.href='{% url 'signup' %}'">
+  <span class="button-decor"></span>
+  <div class="button-content">
+    <div class="button__icon">
+      <i class="fas fa-arrow-right text-white"></i>
+    </div>
+    <span class="button__text">Get Started</span>
+  </div>
+</button>
+
   </div>
 </section>

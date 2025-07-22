@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="Light">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>{% block title %} Fake website {% endblock %}</title>
@@ -11,18 +11,27 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
 
     <!-- Static CSS -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/home.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/container.css' %}"/>
+
+
+    <script>
+      (function() {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      })();
+    </script>
     
   </head>
 
    <style>
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'inter',sans-serif;
     }
   </style>
 
@@ -37,7 +46,7 @@
 
 
 
-<script>
+{% comment %} <script>
       function toggleTheme() {
         const html = document.documentElement;
       const current = html.getAttribute("data-theme") || "light";
@@ -45,8 +54,18 @@
     }
         
       
-</script>
+</script> {% endcomment %}
 
+
+<script>
+      function toggleTheme() {
+        const html = document.documentElement;
+        const current = html.getAttribute("data-theme") || "light";
+        const newTheme = current === "dark" ? "light" : "dark";
+        html.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+      }
+    </script>
 
 
 

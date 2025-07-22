@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <style>
 
  .nav-link {
@@ -29,9 +28,7 @@
 </style>
 
 
-
-
-<nav class="bg-[var(--background-color)] shadow-sm sticky top-0 z-50">
+<nav class="bg-[color:var(--background-color,#ffffff)] shadow-sm sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-[80px]">
 
@@ -43,7 +40,7 @@
 
       <!-- Center: Links (hidden on small) -->
       <div class="hidden md:flex space-x-10 mx-auto">
-        <a href="{% url 'output' %}" class="nav-link {% if request.path == '/output/'%} active {% endif %}">Verify</a>
+        <a href="{% url 'output' %}" class="nav-link {% if request.path == '/output/'%} active {% endif %} text-[var(--text-color)]  font-medium ">Verify</a>
         <a href="{% url 'about' %}" class="nav-link  {% if request.path ==  '/about/'%} active {% endif %} text-[var(--text-color)]  font-medium">About</a>
         <a href="{% url 'contact' %}" class="nav-link  {% if request.path == '/contact/'%} active {% endif %} text-[var(--text-color)]  font-medium">Contact</a>
       </div>
@@ -64,13 +61,13 @@
               <a href="{% url 'signup' %}" class="text-white font-medium">
                Sign up
              </a>
-            {% endif %}
+            {% endif %}
 {% comment %} 
          <button class="hidden md:inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">Signup</button>  {% endcomment %}
 
         <!-- Toggle Button -->
         <button  onclick="toggleTheme()"
-        class=" text-black  ">
+        class="text-[var(--text-color)] ">
            <i class="fas fa-moon"></i>
         </button>
       </div>

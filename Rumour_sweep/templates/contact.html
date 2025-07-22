@@ -2,25 +2,25 @@
  {% comment %} {% extends 'base.html' %}  {% endcomment %}
 
 {% load static %}
+{% include 'navbar.html' %}
+
 <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-{% include 'navbar.html' %}
-
-
 
   <script src="https://cdn.tailwindcss.com"></script>
 
 
+  {% block contact %}
 
-<div class="bg-white text-black font-sans">
+<div class=" bg-[var(--backgroud-color)] text-black font-sans">
 
     <header class="text-black text-center py-11  bg-gradient-to-br from-blue-50 to-white" 
 
   >
-  <h1 class="text-4xl font-bold  ">Stay Informed. Stay Safe.</h1>
-  <p class="mt-2 text-lg">We're here to help. Get in touch!</p>
+  <h1 class="text-4xl font-bold text-[var(--text-color)]">Stay Informed. Stay Safe.</h1>
+  <p class="mt-2 text-lg text-[var(--text-color)]">We're here to help. Get in touch!</p>
 </header>
 
 
@@ -56,6 +56,8 @@
       </form>
     </div>
   </section>
+
+  {% endblock %}
 
  
 {% include 'footer.html' %}

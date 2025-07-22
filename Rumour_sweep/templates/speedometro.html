@@ -1,39 +1,110 @@
+{% comment %} <canvas id="gaugeChart" width="400" height="200" style="background: lightblue;"></canvas>
 
-   <canvas id="gaugeChart" width="400" background="light blue" height="200"></canvas>
+<!-- Chart.js v2 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+<!-- Gauge Plugin -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-gauge@0.1.7/dist/chartjs-gauge.min.js"></script>
 
-    <!-- Chart.js v2 -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-    <!-- Gauge Plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-gauge@0.1.7/dist/chartjs-gauge.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const ctx = document.getElementById('gaugeChart').getContext('2d');
 
-    <script>
-      window.onload = function () {
-        const ctx = document.getElementById('gaugeChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'gauge',
+      data: {
+        labels: ['Low', 'Medium', 'High'], // Optional
+        datasets: [{
+          value: 70,           // Needle value
+          minValue: 0,
+          data: [33, 33, 34],  // Total must = 100
+          backgroundColor: ['red', 'yellow', 'green'],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        needle: {
+          radiusPercentage: 2,
+          widthPercentage: 3.2,
+          lengthPercentage: 80,
+          color: 'black'
+        },
+        valueLabel: {
+          display: true,
+          formatter: (value) => ${value}%,
+          color: 'black',
+          fontSize: 18
+        },
+        plugins: {
+          datalabels: {
+            display: false
+          }        }
+      }
+    });
+  });
+</script> {% endcomment %}
 
-        const chart = new Chart(ctx, {
-          type: 'gauge',
-          data: {
-            datasets: [{
-              value: 70,
-              minValue: 0,
-              data: [100],
-              backgroundColor: ['red', 'yellow', 'green']
-            }]
-          },
-          options: {
-            needle: {
-              radiusPercentage: 2,
-              widthPercentage: 3.2,
-              lengthPercentage: 80,
-              color: 'black'
-            },
-            valueLabel: {
-              display: true,
-              formatter: (value) => `${value}%`,
-              color: 'black',
-              fontSize: 18
-            }
+
+<h2 class="text-center font-bold text-xl mb-4">Performance Chart</h2>
+
+<canvas id="gaugeChart" width="400" height="250" style="background: white;"></canvas>
+
+<!-- ✅ Chart.js v2 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+
+<!-- ✅ Gauge Plugin -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-gauge@0.1.7/dist/chartjs-gauge.min.js"></script>
+
+<script>
+  window.onload = function () {
+    const ctx = document.getElementById('gaugeChart').getContext('2d');
+
+    const chart = new Chart(ctx, {
+      type: 'gauge',
+      data: {
+        datasets: [{
+          value: 70,         // 🔥 Set this dynamically if needed
+          minValue: 0,
+          data: [20, 20, 20, 20, 20],  // 5 equal segments
+          backgroundColor: ['#f44336', '#ff9800', '#ffeb3b', '#c8e6c9', '#4caf50'],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        needle: {
+          radiusPercentage: 2,
+          widthPercentage: 3.2,
+          lengthPercentage: 80,
+          color: 'gray'
+        },
+        valueLabel: {
+          display: true,
+          formatter: (value) => `${70}%\nTotal Quality`,
+          color: 'black',
+          fontSize: 16,
+          bottomMarginPercentage: 10
+        },
+        title: {
+          display: true,
+          text: 'Performance Chart',
+          fontSize: 18
+        },
+        layout: {
+          padding: {
+            bottom: 30
           }
-        });
-      };
-    </script>
+        }
+      }
+    });
+  };
+</script>
+
+
+<div class="text-sm text-center mt-2">
+  <div class="flex justify-between text-xs max-w-md mx-auto px-4">
+    <span>Poor</span>
+    <span>Fair</span>
+    <span>Good</span>
+    <span>Great</span>
+    <span>Excellent</span>
+  </div>
+</div>

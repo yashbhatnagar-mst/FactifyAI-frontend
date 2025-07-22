@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 
 
 def speedmetro(request):
@@ -58,8 +59,6 @@ def Home_Page(request):
     return render(request,'base.html')
 
 
-# def signup_page(request):
-#     return render(request,'signup.html')
 
 
 def signup_page(request):
@@ -107,16 +106,17 @@ def login_page(request):
              return redirect('login')
     return render(request,'login.html')
 
-
-
+@never_cache
 def logoutPage(request):
-    logout(request)
-    messages.success(request, "You have been logged out.")
+    if request.user.is_authenticated:
+        logout(request)
+        request.session.flush()
+        messages.success(request, "You have been logged out.")
     return redirect('login')
 
 
-
 @login_required(login_url='login')
+@never_cache
 def output_page(request):
     return render(request,'output.html')
 
@@ -135,6 +135,7 @@ def change_password_page(request):
     return render(request,'change.html')
 
 @login_required(login_url='login')
+@never_cache
 def profile_page(request):
     return render(request,'profile.html')
 
@@ -158,6 +159,7 @@ def learn_page(request):
 
 
 @login_required(login_url='login')
+@never_cache
 def settings_page(request):
     if request.method == 'POST':
         language = request.POST.get('language')
@@ -178,6 +180,7 @@ def settings_page(request):
 
 
 @login_required(login_url='login')
+@never_cache
 def delete_account(request):
     if request.method == 'POST':
         user = request.user
@@ -188,6 +191,7 @@ def delete_account(request):
 
 
 @method_decorator(login_required, name='dispatch')
+@never_cache
 class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'changepass.html'
     success_url = reverse_lazy('login')

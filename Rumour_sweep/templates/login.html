@@ -1,6 +1,9 @@
 {% load static %} {% include 'navbar.html' %}
 <script src="https://cdn.tailwindcss.com"></script>
 
+
+{% block login %}
+
 <div class="h-280  bg-gry-100 b-1 text-gray-900 flex justify-center shadow-sm sticky top-0 z-30">
   <div
     class="max-w-screen-xl m-0 sm:m-10 bg-white  sm:rounded-lg flex justify-center flex-1"
@@ -134,3 +137,5 @@
     </div>
   </div>
 </div>
+
+{%  endblock %}
