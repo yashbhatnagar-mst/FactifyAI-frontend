@@ -46,9 +46,9 @@
     </div>
 
     <!-- Credibility Meter -->
-    <!-- ✅ Credibility Meter -->
+    <!--  Credibility Meter -->
     <div class="flex flex-col items-center my-8">
-      <div class="relative w-48 h-48">
+      <div class="relative w-80 h-80">
         <canvas id="credibilityMeter" class="w-full h-full"></canvas>
         <div class="absolute inset-0 flex items-center justify-center">
           <span id="meterText" class="text-2xl font-bold text-gray-800">--%</span>
@@ -59,45 +59,80 @@
 
     <!-- ✅ Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const score = 50; // Replace with {{ score }} if dynamic
 
-        const canvas = document.getElementById('credibilityMeter');
-        const meterText = document.getElementById('meterText');
-        meterText.innerText = ${score}%;
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const score = 65; // Replace with dynamic {{ score }} if needed
+    const canvas = document.getElementById('credibilityMeter');
+    const meterText = document.getElementById('meterText');
+    meterText.innerText = `${score}%`;
+    const ctx = canvas.getContext('2d');
 
-        const ctx = canvas.getContext('2d');
+    const getColor = (val) => {
+      if (val >= 75) return '#16a34a';
+      if (val >= 40) return '#facc15';
+      return '#dc2626';
+    };
 
-        const getColor = (val) => {
-          if (val >= 75) return '#16a34a';
-          if (val >= 40) return '#facc15';
-          return '#dc2626';
-        };
+    const needlePlugin = {
+      id: 'needle',
+      afterDatasetDraw(chart, args, pluginOptions) {
+        const {
+          ctx,
+          chartArea: { width, height, top, bottom },
+          scales: { r },
+        } = chart;
 
-        new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            datasets: [{
-              data: [score, 100 - score],
-              backgroundColor: [getColor(score), '#e5e7eb'],
-              borderWidth: 0,
-              cutout: '75%',
-              circumference: 180,
-              rotation: 270,
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: { enabled: false }
-            }
-          }
-        });
-      });
-    </script>
+        const angle = (Math.PI * (score / 100)); // 0 to PI (180°)
+        const centerX = chart.getDatasetMeta(0).data[0].x;
+        const centerY = chart.getDatasetMeta(0).data[0].y;
+        const radius = chart.getDatasetMeta(0).data[0].outerRadius;
+
+        const needleLength = radius * 0.9;
+        const x = centerX + needleLength * Math.cos(Math.PI + angle);
+        const y = centerY + needleLength * Math.sin(Math.PI + angle);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#111827'; // dark gray needle
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        // Draw circle at center
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = '#111827';
+        ctx.fill();
+        ctx.restore();
+      }
+    };
+
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [score, 100 - score],
+          backgroundColor: [getColor(score), '#e5e7eb'],
+          borderWidth: 0,
+          cutout: '75%',
+          circumference: 180,
+          rotation: 270,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        }
+      },
+      plugins: [needlePlugin]
+    });
+  });
+</script>
 
     <!-- Analysis Results -->
     <section id="skills" class="mb-20 animate-fade-in-up" style="animation-delay: 0.4s;">

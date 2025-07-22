@@ -35,7 +35,7 @@
       <!-- Left: Logo -->
       <div class="flex-shrink-0">
         <a href="{% url 'home' %}">
-          <img class="h-21 w-[170px] mt-4" src="{% static 'images/logo.png' %}" alt="Logo"/></a>
+          <img class="h-23 w-[180px] background-image: var(--image-url); mt-4" src="{% static 'images/final-2.png' %}" alt="Logo"/></a>
       </div>
 
       <!-- Center: Links (hidden on small) -->
@@ -58,12 +58,12 @@
                 </div>
               </a>
             {% else %}
-              <a href="{% url 'signup' %}" class="text-white font-medium">
+               <button><a href="{% url 'signup' %}" class="text-white font-medium"></a>
                Sign up
              </a>
             {% endif %}
 {% comment %} 
-         <button class="hidden md:inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">Signup</button>  {% endcomment %}
+            <button class="hidden md:inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">Signup</button>  {% endcomment %}
 
         <!-- Toggle Button -->
         <button  onclick="toggleTheme()"

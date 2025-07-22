@@ -118,7 +118,8 @@ def logoutPage(request):
 @login_required(login_url='login')
 @never_cache
 def output_page(request):
-    return render(request,'output.html')
+    result=74
+    return render(request,'output.html',{'result':result})
 
 
 def forgot_page(request):

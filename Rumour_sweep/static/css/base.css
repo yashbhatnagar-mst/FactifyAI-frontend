@@ -7,6 +7,7 @@
   --text-color: #060606;       
   --error-color: #ef4444;      
   --font-main:'inter',sans-serif;
+  --logo-image: url("logo-2.png");
   /* --sec-background-color:#111827; */
 } 
 
@@ -18,6 +19,7 @@
 
 
 [data-theme="dark"] {
+  --background-image: var(--logo-image);
   --background-color: #111827;
   --sec-background-color:#111827;
   --text-color: #ffffff;
