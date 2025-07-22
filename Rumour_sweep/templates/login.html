@@ -1,13 +1,13 @@
 {% load static %} {% include 'navbar.html' %}
 <script src="https://cdn.tailwindcss.com"></script>
 
-<div class="h-340 bg-gray-100 text-gray-900 flex justify-center">
+<div class="h-280  bg-gry-100 b-1 text-gray-900 flex justify-center shadow-sm sticky top-0 z-30">
   <div
-    class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1"
+    class="max-w-screen-xl m-0 sm:m-10 bg-white  sm:rounded-lg flex justify-center flex-1"
   >
     <div class="flex-1 bg-indigo-100 text-center hidden lg:flex">
       <div
-        class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
+        class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat sticky"
         style="
           background-image: url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg');
         "
@@ -100,7 +100,7 @@
                 <circle cx="8.5" cy="7" r="4" />
                 <path d="M20 8v6M23 11h-6" />
               </svg>
-              <span class="ml-3"> Login</span>
+              <span class="ml-3"> <a href="#">Login</span>
             </button>
             </form>
 
@@ -117,10 +117,16 @@
               Already have an account?
               <a
                 href="{% url 'signup' %}"
-                class=" text-lg text-blue-500  hover:text-blue-700"
+                class=" text-xs text-blue-500  hover:text-blue-700"
               >
                 Sign Up
               </a>
+              <span>|</span>
+              <a
+                href="{% url 'forgot' %}"
+                class="text-blue-500 hover:text-blue-700">
+                Forgot Password?
+                </a>
             </p>
           </div>
         </div>

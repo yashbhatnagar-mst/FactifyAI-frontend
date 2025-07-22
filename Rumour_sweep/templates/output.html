@@ -9,33 +9,33 @@
 
 
 <div class="flex items-center gap-4 mb-6 justify-center ">
-    <img src="{% static 'images/ai.gif' %}" alt="AI" class="w-20 h-20 mt-3" />
-      <h2 class="text-2xl font-semibold font-[var(--font-main)]">
-        Analyze the credibility of a news article
-     </h2>
+      <img src="{% static 'images/ai.gif' %}" alt="AI" class="w-20 h-20 mt-3" />
+         <h2 class="text-2xl font-semibold font-[var(--font-main)]">
+           Analyze the credibility of a news article
+         </h2>
 </div>
 
-<main class="max-w-4xl mx-auto p-6 rounded-lg shadow-lg space-y-3  bg-gradient-to-br from-blue-50 to-white ">
+<section class="max-w-4xl text-[var(--font-main)] text-[var(--text-color)] mx-auto p-6 rounded-lg shadow-lg space-y-3  bg-gradient-to-br from-blue-50 to-white ">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <label class="block text-lg font-semibold mb-2">Enter News Content</label>
         <div class="relative">
-             <textarea id="news-text" name="text" rows="5" required
+              <textarea id="news-text" name="text" rows="5" required
                 class="w-full rounded border border-gray-300 bg-gray-50 p-4 pr-24 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Paste or type your news content here...">
                </textarea>
 
             <!-- Icons inside prompt box -->
                <div class="absolute top-2 right-2 flex space-x-2">
-                <label for="image-upload" title="Upload Image">
+                 <label for="image-upload" title="Upload Image">
                   <i class="fa-solid fa-images"></i>
                 </label>
 
-                <input id="image-upload" name="image" type="file" accept="image/*" class="hidden" />
-                <button type="button" title="Start Voice Input" id="voice-btn">
-                  <i class="fa-solid fa-microphone"></i>
-                </button>
-            </div>
+                 <input id="image-upload" name="image" type="file" accept="image/*" class="hidden" />
+                 <button type="button" title="Start Voice Input" id="voice-btn">
+                    <i class="fa-solid fa-microphone"></i>
+                 </button>
+             </div>
         </div>
 
         <!-- URL Input Field -->
@@ -46,6 +46,7 @@
         </div>
 
         <!-- Credibility Score -->
+        {% include 'speedometro.html'%}
         <section id="skills" class="mb-20 animate-fade-in-up" style="animation-delay: 0.4s;">
             <div class="max-w-4xl mx-auto space-y-6 mt-5">
                 <div>
@@ -56,14 +57,14 @@
                     </p>
                 </div>
 
-                <div class="space-y-4">
+                   <div class="space-y-4">
                     
                         <div class="flex justify-between mb-1">
                             <span>Credibility Score </span>
-                            <span>90%</span>
+                            <span>50%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-blue-500 h-3 rounded-full skill-bar" style="width: 90%;"></div>
+                            <div class="bg-blue-500 h-3 rounded-full skill-bar" style="width:50%;"></div>
                         </div>
                     </div>
 
@@ -98,14 +99,6 @@
 
 
 
-
-
-
-
-
-
-            
-
                 <!-- Recommendations -->
                 {% comment %} <div>
                     <h3 class="text-xl font-semibold mb-2">Recommendations</h3>
@@ -114,8 +107,8 @@
                         <li><i class="fa-solid fa-magnifying-glass"></i> Investigate the sources cited in the article to assess their credibility.</li>
                         <li><i class="fa-solid fa-magnifying-glass"></i> Be cautious of emotionally charged language and potential biases.</li>
                     </ul>
-                </div> {% endcomment %}
-            </div>
+                </div>  </div>{% endcomment %}
+           
 
         
 
@@ -134,14 +127,15 @@
             </div>
         </div> {% endcomment %}
 
-                  </main>
+    </section>
 
-               <!-- Key Findings -->
+             
                      
-                    
-        </div>
+
         
 
+
+        
 
         {% comment %} <script>
 

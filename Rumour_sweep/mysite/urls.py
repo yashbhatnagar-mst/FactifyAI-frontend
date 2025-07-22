@@ -27,6 +27,7 @@ urlpatterns = [
     path('contact/',views.contact_page,name="contact"),
     path('settings/',views.settings_page,name="settings"),
     path('delete-account/', views.delete_account, name='delete_account'),
+    path('speed/',views.speedmetro, name='speed'),
 
     
     

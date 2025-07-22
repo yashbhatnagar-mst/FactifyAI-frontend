@@ -1,0 +1,39 @@
+
+   <canvas id="gaugeChart" width="400" background="light blue" height="200"></canvas>
+
+    <!-- Chart.js v2 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <!-- Gauge Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-gauge@0.1.7/dist/chartjs-gauge.min.js"></script>
+
+    <script>
+      window.onload = function () {
+        const ctx = document.getElementById('gaugeChart').getContext('2d');
+
+        const chart = new Chart(ctx, {
+          type: 'gauge',
+          data: {
+            datasets: [{
+              value: 70,
+              minValue: 0,
+              data: [100],
+              backgroundColor: ['red', 'yellow', 'green']
+            }]
+          },
+          options: {
+            needle: {
+              radiusPercentage: 2,
+              widthPercentage: 3.2,
+              lengthPercentage: 80,
+              color: 'black'
+            },
+            valueLabel: {
+              display: true,
+              formatter: (value) => `${value}%`,
+              color: 'black',
+              fontSize: 18
+            }
+          }
+        });
+      };
+    </script>

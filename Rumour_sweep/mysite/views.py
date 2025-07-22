@@ -12,38 +12,44 @@ from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 
 
+def speedmetro(request):
+    value = 90  
+    return render(request, 'speedometro.html', {'value': value})
 
 
 
-# def analyze_news(request):
-#     if request.method == 'POST':
-#         text = request.POST.get('text')
-#         url = request.POST.get('url')
-#         image = request.FILES.get('image')
+
+
+
+def analyze_news(request):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        url = request.POST.get('url')
+        image = request.FILES.get('image')
 
        
-#         credibility_score = 65
-#         key_findings = [
-#             "The article cites multiple sources, but their reliability varies.",
-#             "The language used is generally neutral, but some emotionally charged words are present.",
-#             "Some claims lack sufficient evidence."
-#         ]
+        credibility_score = 65
+        key_findings = [
+            "The article cites multiple sources, but their reliability varies.",
+            "The language used is generally neutral, but some emotionally charged words are present.",
+            "Some claims lack sufficient evidence."
+        ]
 
-#         recommendations = [
-#             "Cross-reference information with other reputable news sources.",
-#             "Investigate the sources cited in the article.",
-#             "Be cautious of emotionally charged language."
-#         ]
+        recommendations = [
+            "Cross-reference information with other reputable news sources.",
+            "Investigate the sources cited in the article.",
+            "Be cautious of emotionally charged language."
+        ]
 
-#         # Render the result template with context
-#         return render(request, 'output.html', {
-#             'text': text,
-#             'score': credibility_score,
-#             'findings': key_findings,
-#             'recommendations': recommendations
-#         })
+        # Render the result template with context
+        return render(request, 'output.html', {
+            'text': text,
+            'score': credibility_score,
+            'findings': key_findings,
+            'recommendations': recommendations
+        })
 
-#     return render(request, 'form.html')
+    return render(request, 'form.html')
 
 
 
@@ -78,8 +84,7 @@ def signup_page(request):
     return render(request,'signup.html')
 
 
-# def login_page(request):
-#     return render(request,'login.html')
+
 
 
 def login_page(request):
