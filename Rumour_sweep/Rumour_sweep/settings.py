@@ -3,6 +3,8 @@
 from pathlib import Path
 import os
 
+FASTAPI_BASE_URL = "http://localhost:8000/api"
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

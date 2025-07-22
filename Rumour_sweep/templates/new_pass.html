@@ -4,7 +4,7 @@
 
 
 <script src="https://cdn.tailwindcss.com"></script>
-</head>
+
 <body class="bg-gray-50 min-h-screen flex items-center justify-center">
   <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
     <h2 class="text-2xl font-bold text-gray-800 mb-4">Create New Password</h2>
@@ -16,7 +16,7 @@
       {% endfor %}
     {% endif %}
 
-    <form method="POST" action="{% url 'signup'%}" onsubmit="return checkPasswordMatch()">
+    <form method="POST" action="{% url 'new_password' %}" onsubmit="return checkPasswordMatch()">
       {% csrf_token %}
       
       <input type="password" id="new_password1" name="new_password1" required placeholder="New Password" 
@@ -33,7 +33,10 @@
       </button>
     </form>
   </div>
+  </body>
 
+
+{% comment %} 
   <script>
     const password1 = document.getElementById("new_password1");
     const password2 = document.getElementById("new_password2");
@@ -61,5 +64,4 @@
         matchMessage.textContent = "";
       }
     });
-  </script>
-</body>
+  </script> {% endcomment %}
