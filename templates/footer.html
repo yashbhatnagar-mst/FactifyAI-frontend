@@ -1,0 +1,26 @@
+
+
+
+{% load static %}
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+
+<div class="border-t border-gray-300 dark:border-gray-700 my-10"></div>
+<div class="bg-[var(--bg-color)]">
+  
+
+  <!-- ✅ Footer -->
+  <footer class="bg-[var(--bg-secondary-color)] text-[var(--text-color)] py-10 px-4 w-full ">
+    <div class="container mx-auto flex flex-col items-center text-center space-y-4">
+      <p class="text-sm">
+        &copy; {% now "Y" %} All Rights Reserved
+      </p>
+      <ul class="flex flex-wrap justify-center gap-6 text-sm">
+        <li><a href="#" class="hover:text-blue-500 transition">Contact</a></li>
+        <li><a href="#" class="hover:text-blue-500 transition">Privacy Policy</a></li>
+        <li><a href="#" class="hover:text-blue-500 transition">Terms of Use</a></li>
+      </ul>
+    </div>
+  </footer>
+</div>

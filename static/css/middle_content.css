@@ -1,0 +1,106 @@
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 150px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;              /* ↓ smaller width */
+  height: 220px;             /* ↓ added smaller height */
+  border-radius: 18px;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;                 /* ↓ tighter spacing */
+  padding: 20px;             /* ↓ reduced padding */
+  border-radius: 16px;
+  color: #ffffff;
+  background: var(--primary-color);
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content::before {
+  position: absolute;
+  content: "";
+  top: -5%;
+  left: 50%;
+  width: 95%;
+  height: 95%;
+  transform: translate(-50%);
+  background: #ced8ff;
+  z-index: -1;
+  border-radius: inherit;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: bottom;
+}
+
+.content::after {
+  position: absolute;
+  content: "";
+  top: -8%;
+  left: 50%;
+  width: 85%;
+  height: 85%;
+  transform: translate(-50%);
+  background: #e7ecff;
+  z-index: -2;
+  border-radius: inherit;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: bottom;
+}
+
+.content svg {
+  width: 36px;
+  height: 36px;
+}
+
+.content .para {
+  z-index: 1;
+  opacity: 1;
+  font-size: 14px;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content .link {
+  z-index: 1;
+  color: var(--accent-color, #fea000);
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 13px;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content .link:hover {
+  text-decoration: underline;
+}
+
+.card:hover {
+  transform: translateY(-10px); /* subtle bounce */
+}
+
+.card:hover .content::before {
+  rotate: -8deg;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card:hover .content::after {
+  rotate: 8deg;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}

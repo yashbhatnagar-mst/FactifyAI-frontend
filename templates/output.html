@@ -1,0 +1,397 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  :root {
+    --primary-color: #8a4af3;
+    --background-color: #ffffff;
+    --text-color: #222;
+    --sec_color: #222;
+    --font-main: 'inter', sans-serif;
+  }
+
+  .dark {
+    --background-color: #111827;
+    --text-color: #ffffff;
+    --sec_color: #222;
+  }
+
+  body {
+    font-family: var(--font-main);
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+</style>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="flex items-center gap-4 mb-6 justify-center">
+  <img src="{% static 'images/ai.gif' %}" alt="AI" class="w-20 h-20 mt-3" />
+  <h2 class="text-2xl font-semibold font-[var(--font-main)]">
+    Analyze the credibility of a news article
+  </h2>
+</div>
+
+<section class="max-w-[73rem] text-[var(--font-main)] text-[var(--text-color)] mx-auto p-6 rounded-lg shadow-lg space-y-3 bg-gradient-to-br from-blue-50 to-white ml-48">
+
+  <form method="POST" action="{% url 'analyze' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label class="block font-semibold mb-2" style="color: var(--sec_color); font-family: var(--font-main);">
+      Enter News Content
+    </label>
+
+    <div class="relative">
+      <textarea id="news-text" name="text" rows="5"
+        class="w-full rounded border border-gray-300 bg-gray-50 p-4 pr-24 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Paste or type your news content here...">{{ text|default:"" }}</textarea>
+
+      <div class="absolute top-2 right-2 flex space-x-2">
+        <label for="image-upload" title="Upload Image">
+          <i class="fa-solid fa-images"></i>
+        </label>
+        <input id="image-upload" name="image" type="file" accept="image/*" class="hidden" />
+
+        <label for="audio-upload" title="Upload Audio">
+          <i class="fa-solid fa-microphone"></i>
+        </label>
+        <input id="audio-upload" name="audio" type="file" accept="audio/*" class="hidden" />
+      </div>
+    </div>
+
+    <!-- URL Input Field -->
+    <div class="mt-6">
+      <label class="block font-semibold mb-2" style="color: var(--sec_color); font-family: var(--font-main);">URL here (optional)</label>
+      <input name="url" id="url-input" type="url" value="{{ url|default:'' }}" placeholder="Paste the news article URL"
+        class="w-full rounded border border-gray-300 bg-gray-50 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    </div>
+
+    <div class="mt-6 text-center">
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-md transition duration-200 shadow-md">
+        <i class="fa-solid fa-magnifying-glass"></i> Analyze News
+      </button>
+    </div>
+
+    {% if score %}
+    <!-- Credibility Meter -->
+    <div class="flex flex-col items-center my-8">
+      <div class="relative w-80 h-80">
+        <canvas id="credibilityMeter" class="w-full h-full"></canvas>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span id="meterText" class="text-2xl font-bold text-gray-800">{{ score }}%</span>
+        </div>
+      </div>
+      <p class="mt-4 text-sm text-gray-500">Overall credibility score</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const score = {{ score|default:"0" }};
+        const canvas = document.getElementById('credibilityMeter');
+        const ctx = canvas.getContext('2d');
+
+        const getColor = (val) => {
+          if (val >= 75) return '#16a34a';
+          if (val >= 40) return '#facc15';
+          return '#dc2626';
+        };
+
+        const needlePlugin = {
+          id: 'needle',
+          afterDatasetDraw(chart, args, pluginOptions) {
+            const {
+              ctx,
+              chartArea: { width, height, top, bottom },
+              scales: { r },
+            } = chart;
+
+            const angle = (Math.PI * (score / 100));
+            const centerX = chart.getDatasetMeta(0).data[0].x;
+            const centerY = chart.getDatasetMeta(0).data[0].y;
+            const radius = chart.getDatasetMeta(0).data[0].outerRadius;
+
+            const needleLength = radius * 0.9;
+            const x = centerX + needleLength * Math.cos(Math.PI + angle);
+            const y = centerY + needleLength * Math.sin(Math.PI + angle);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#111827';
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = '#111827';
+            ctx.fill();
+            ctx.restore();
+          }
+        };
+
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+              data: [score, 100 - score],
+              backgroundColor: [getColor(score), '#e5e7eb'],
+              borderWidth: 0,
+              cutout: '75%',
+              circumference: 180,
+              rotation: 270,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: { enabled: false }
+            }
+          },
+          plugins: [needlePlugin]
+        });
+      });
+    </script>
+
+    <!-- Analysis Results -->
+    <section class="mb-20 animate-fade-in-up" style="animation-delay: 0.4s; ">
+      <div class="max-w-4xl mx-auto space-y-6 mt-5">
+        <h3 class="text-xl font-semibold mb-2">Analysis Results</h3>
+        <ul class="space-y-3">
+          {% for finding in findings %}
+          <li class="flex items-start gap-2">
+            <span class="text-green-600"><i class="fa-solid fa-check text-green-600"></i></span>
+            <span>{{ finding }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+
+        {% if recommendations %}
+        <h3 class="text-xl font-semibold mt-3">Recommendations</h3>
+        <ul class="list-disc list-inside text-gray-700">
+          {% for item in recommendations %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </section>
+    {% endif %}
+  </form>
+</section>
+
+{% endblock %}
+
+
+{% comment %} 
+{% extends 'base.html' %}
+{% load static %}
+
+
+<style>
+  :root {
+    --primary-color: #8a4af3;
+    --background-color: #ffffff;
+    --text-color: #222;
+    --sec_color: #222;
+    --font-main: 'inter', sans-serif;
+  }
+
+  .dark
+  {
+    --background-color: #111827;
+    --text-color: #ffffff;
+    --sec_color: #222; 
+  }
+
+  body {
+    font-family: var(--font-main);
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+</style>
+
+
+
+
+{% block content %}
+ <script src="https://cdn.tailwindcss.com"></script>
+
+<div class="flex items-center gap-4 mb-6 justify-center">
+  <img src="{% static 'images/ai.gif' %}" alt="AI" class="w-20 h-20 mt-3" />
+  <h2 class="text-2xl font-semibold font-[var(--font-main)]">
+    Analyze the credibility of a news article
+
+  </h2>
+</div>
+
+<section class="max-w-[73rem] text-[var(--font-main)] text-[var(--text-color)] mx-auto p-6 rounded-lg shadow-lg space-y-3 bg-gradient-to-br from-blue-50 to-white ml-48">
+
+  <form method="POST" action="{% url 'analyze' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+<label class="block font-semibold mb-2" style="color: var(--sec_color); font-family: var(--font-main);">
+Enter News Content</label>
+    <div class="relative">
+      <textarea id="news-text" name="text" rows="5" required
+        class="w-full rounded border border-gray-300 bg-gray-50 p-4 pr-24 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Paste or type your news content here..."></textarea>
+
+      <!-- Icons inside prompt box -->
+      <div class="absolute top-2 right-2 flex space-x-2">
+        <label for="image-upload" title="Upload Image">
+          <i class="fa-solid fa-images"></i>
+        </label>
+        <input id="image-upload" name="image" type="file" accept="image/*" class="hidden" />
+        <button type="button" title="Start Voice Input" id="voice-btn">
+          <i class="fa-solid fa-microphone"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- URL Input Field -->
+    <div class="mt-6">
+      <label class="block font-semibold mb-2" style="color: var(--sec_color); font-family: var(--font-main);">URL here (optional)</label>
+      <input name="url" id="url-input" type="url" placeholder="Paste the news article URL"
+        class="w-full rounded border border-gray-300 bg-gray-50 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    </div>
+
+    <div class="mt-6 text-center">
+  <button type="submit"
+    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-md transition duration-200 shadow-md">
+    <i class="fa-solid fa-magnifying-glass"></i> Analyze News
+  </button>
+</div>
+
+    
+    <!--  Credibility Meter -->
+    <div class="flex flex-col items-center my-8">
+      <div class="relative w-80 h-80">
+        <canvas id="credibilityMeter" class="w-full h-full"></canvas>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span id="meterText" class="text-2xl font-bold text-gray-800">--%</span>
+        </div>
+      </div>
+      <p class="mt-4 text-sm text-gray-500">Overall credibility score</p>
+    </div>
+
+    <!-- ✅ Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const score = 65; // Replace with dynamic {{ score }} if needed
+    const canvas = document.getElementById('credibilityMeter');
+    const meterText = document.getElementById('meterText');
+    meterText.innerText = `${score}%`;
+    const ctx = canvas.getContext('2d');
+
+    const getColor = (val) => {
+      if (val >= 75) return '#16a34a';
+      if (val >= 40) return '#facc15';
+      return '#dc2626';
+    };
+
+    const needlePlugin = {
+      id: 'needle',
+      afterDatasetDraw(chart, args, pluginOptions) {
+        const {
+          ctx,
+          chartArea: { width, height, top, bottom },
+          scales: { r },
+        } = chart;
+
+        const angle = (Math.PI * (score / 100)); // 0 to PI (180°)
+        const centerX = chart.getDatasetMeta(0).data[0].x;
+        const centerY = chart.getDatasetMeta(0).data[0].y;
+        const radius = chart.getDatasetMeta(0).data[0].outerRadius;
+
+        const needleLength = radius * 0.9;
+        const x = centerX + needleLength * Math.cos(Math.PI + angle);
+        const y = centerY + needleLength * Math.sin(Math.PI + angle);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#111827'; // dark gray needle
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        // Draw circle at center
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = '#111827';
+        ctx.fill();
+        ctx.restore();
+      }
+    };
+
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [score, 100 - score],
+          backgroundColor: [getColor(score), '#e5e7eb'],
+          borderWidth: 0,
+          cutout: '75%',
+          circumference: 180,
+          rotation: 270,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        }
+      },
+      plugins: [needlePlugin]
+    });
+  });
+</script>
+
+    <!-- Analysis Results -->
+    <section id="skills" class="mb-20 animate-fade-in-up" style="animation-delay: 0.4s; color: var(--sec_color); font-family: var(--font-main);">
+  <div class="max-w-4xl mx-auto space-y-6 mt-5">
+    <div>
+      <h3 class="text-xl font-semibold mb-2">Analysis Results</h3>
+      <p>
+        Based on our analysis, this article has a moderate level of credibility. While some sources
+        are cited, further investigation into the claims is recommended.
+      </p>
+    </div>
+
+    <h3 class="text-xl font-semibold mt-3">Key Findings</h3>
+    <ul class="space-y-3">
+      <li class="flex items-start gap-2">
+        <span class="text-green-600"><i class="fa-solid fa-check text-green-600"></i></span>
+        <span><strong>Source Reliability:</strong>    </span>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-green-600"><i class="fa-solid fa-check text-green-600"></i></span>
+        <span><strong>Language Analysis:</strong>  </span>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-green-600"><i class="fa-solid fa-check text-green-600"></i></span>
+        <span><strong>Evidence and Claims:</strong>  </span>
+      </li>
+    </ul>
+  </div>
+</section>
+  </form>
+</section>
+
+
+
+
+{% endblock %}
+
+
+ {% endcomment %}

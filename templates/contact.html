@@ -1,0 +1,124 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+
+<style>
+      @keyframes slide-in {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      
+      
+      .animate-slide-in {
+        animation: slide-in 0.3s ease-out;
+    }
+ }
+</style>
+
+
+
+<div class="bg-[var(--backgroud-color)] text-black font-sans mb-6">
+  <!-- Header -->
+  <header class="text-black text-center py-11">
+    <h1 class="text-4xl font-bold text-[var(--text-color)]">
+      Stay Informed. Stay Safe.
+    </h1>
+    <p class="mt-2 text-lg text-[var(--text-color)]">
+      We're here to help. Get in touch!
+    </p>
+  </header>
+
+  <!-- Contact Section -->
+  <section
+    class="max-w-[73rem] text-[var(--font-main)] text-[var(--text-color)] mx-auto p-6 rounded-lg shadow-lg bg-gradient-to-br from-blue-50 to-white ml-48"
+  >
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <!-- Image -->
+      <div class="w-full md:w-1/2">
+        <img
+          src="{% static 'images/contact.jpg' %}"
+          alt="Contact Us"
+          class="rounded-lg shadow-lg w-full"
+        />
+      </div>
+
+      <!-- Form -->
+
+      <div class="w-full md:w-1/2 bg-blue-50 p-6 rounded-lg shadow-md">
+        {% for message in messages %} {{ message }} {% endfor %}
+
+        <form method="POST" action="">
+          {% csrf_token %}
+          <div class="mb-4">
+            <label
+              for="name"
+              style="color: var(--sec_color)"
+              class="block font-bold text-sm mb-1"
+              >Name</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label
+              for="email"
+              style="color: var(--sec_color)"
+              class="block font-bold text-sm mb-1"
+              >Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label
+              for="message"
+              style="color: var(--sec_color)"
+              class="block font-bold text-sm mb-1"
+              >Message</label
+            >
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}
+
+<script>
+  setTimeout(() => {
+    const toast = document.getElementById("toast");
+    if (toast) {
+      toast.style.display = "none";
+    }
+  }, 3000);
+</script>

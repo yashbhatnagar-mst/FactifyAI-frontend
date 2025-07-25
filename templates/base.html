@@ -1,0 +1,93 @@
+
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en" theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %} final{% endblock %}</title>
+    <link rel="icon" href="{% static 'images/logo.png' %}" type="image/png" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Static CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/middle_content.css' %}" />
+  </head>
+
+ <body class=" bg-[var(--background-color)] text-[var(--text-color)] transition-all duration-300">
+    
+
+    <main>
+
+    {% include 'navbar.html'%}
+
+     {% block content %}   
+
+     {% include 'Home.html'%}
+     {% include 'middle_content.html'%}
+       
+    {% endblock %}
+    {% include 'footer.html' %} 
+    </main>
+
+
+  </body>
+
+  <script>
+  tailwind.config = {
+    darkMode: 'class',
+  };
+</script>
+
+ <script>
+  // Apply saved theme on page load
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedTheme = localStorage.getItem("theme");
+    const html = document.documentElement;
+
+    if (savedTheme === "dark") {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+
+    toggleLogo(savedTheme || "light");
+  });
+
+  // Toggle dark mode and logo
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.classList.contains("dark");
+    const newTheme = isDark ? "light" : "dark";
+
+    html.classList.toggle("dark", !isDark);
+    localStorage.setItem("theme", newTheme);
+    toggleLogo(newTheme);
+  }
+
+  // Show/hide correct logo
+  function toggleLogo(theme) {
+    const lightLogo = document.getElementById("logo-light");
+    const darkLogo = document.getElementById("logo-dark");
+
+    if (!lightLogo || !darkLogo) return;
+
+    lightLogo.classList.toggle("hidden", theme === "dark");
+    darkLogo.classList.toggle("hidden", theme === "light");
+  }
+</script>
+
+</html>

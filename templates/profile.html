@@ -1,0 +1,47 @@
+
+
+{% load static %}
+
+
+
+<section class="bg-gradient-to-br from-slate-100 to-white min-h-screen flex items-center justify-center px-4">
+
+  <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-8 border border-gray-200">
+    
+    <!-- Top Right Dashboard Link -->
+    <div class="flex justify-end">
+      <a href="{% url 'home' %}" class="text-indigo-600 hover:underline text-sm font-medium">
+        ← Back to Home
+      </a>
+    </div>
+
+    <!-- Profile Header -->
+    <div class="flex items-center space-x-5">
+      <img class="h-20 w-20 rounded-full object-cover shadow" src="{% static 'images/user.png' %}" alt="User Avatar">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800">John Doe</h2>
+        <p class="text-gray-500 text-sm">john.doe@example.com</p>
+      </div>
+    </div>
+
+    <!-- Buttons: One in each row -->
+    <div class="space-y-3 pt-2">
+
+      <a href="{% url 'settings' %}" class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm px-4 py-2 rounded-lg font-medium shadow-sm w-full">
+        <i class="fas fa-cog mr-2"></i> Settings
+      </a>
+
+      <a href="#" class="flex items-center justify-center bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm px-4 py-2 rounded-lg font-medium shadow-sm w-full">
+        <i class="fas fa-edit mr-2"></i> Edit Profile
+      </a>
+
+      <a href="{% url 'login' %}" class="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-lg font-medium shadow-sm w-full">
+        <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
+      </a>
+
+    </div>
+
+</div>   
+
+</section>
+

@@ -1,0 +1,37 @@
+:root {
+  --primary-color:#8a4af3;       
+  --background-color:#ffffff;
+  --sec-background-color:'bg-gradient-to-br from-blue-50 to-white';    
+  --text-color: #222;       
+  --error-color: #ef4444;      
+  --font-main:'inter',sans-serif;
+  --logo-image: url("black.png");
+  --sec_color: #222 !important; 
+  
+} 
+
+ body {
+  font-family:var(--font-main);
+  background-color: var(--background-color);
+  color: var(--text-color);
+
+   
+} 
+
+
+.dark
+ {
+  --background-image: var(--logo-image);
+  --background-color: #111827;
+  --sec-background-color: #111827;
+  --text-color: #ffffff;
+   --primary-color: #8a4af3;          
+  --error-color: #ef4444; 
+   --logo-image: url("white.png");     
+  --font-main: 'inter', sans-serif;
+   
+}
+
+html {
+  scroll-behavior: smooth;
+}

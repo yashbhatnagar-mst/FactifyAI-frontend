@@ -1,0 +1,40 @@
+
+
+from django.contrib import admin
+from django.urls import path
+from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+
+
+
+urlpatterns = [
+
+    path('',views.home_page,name="home"),
+    path('about/',views.about_page,name="about"),
+    path('analyze/',views.analyze_news,name='analyze'),
+    path('change_pass/', views.CustomPasswordChangeView,name='change_pass'),
+    path('change_pass/', views.CustomPasswordChangeView,name='change_pass'),
+    path('change_password/',views.new_password_page,name="change_password"),
+    path('contact/',views.contact_page,name="contact"),
+    path('delete-account/', views.delete_account, name='delete_account'), 
+
+    # path('home/',views.home_page,name="home"),
+    
+    path('signup/',views.signup_page,name="signup"),
+    path('login/',views.login_page,name="login"),
+    path('logout/',views.logoutPage,name="logout"),
+    path('forgot/',views.forgot_page,name="forgot"),
+    path('verification/',views.verification_page,name="verification"),
+    path('new_password/',views.new_password_page,name="new_password"),
+    path('google/callback/', views.google_login_callback, name='google_callback_direct'),
+    path('login/google/',views.google_login_redirect, name='google_login'),
+    path('login/callback/', views.google_login_callback, name='google_callback'),
+    path('output/',views.output_page,name="output"),
+    path('settings/',views.settings_page,name="settings"),
+    path('trending/', views.trending, name='trending'),
+    
+        
+    
+]
