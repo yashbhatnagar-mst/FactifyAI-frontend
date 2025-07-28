@@ -65,6 +65,7 @@
               name="name"
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style="color: var(--sec_color); font-family: var(--font-main);"
             />
           </div>
 
@@ -81,6 +82,7 @@
               name="email"
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style="color: var(--sec_color); font-family: var(--font-main);"
             />
           </div>
 
@@ -97,12 +99,14 @@
               rows="4"
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              style="color: var(--sec_color); font-family: var(--font-main);"
             ></textarea>
           </div>
 
           <button
             type="submit"
             class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+            
           >
             Send Message
           </button>
@@ -114,11 +118,11 @@
 
 {% endblock %}
 
-<script>
+{% comment %} <script>
   setTimeout(() => {
     const toast = document.getElementById("toast");
     if (toast) {
       toast.style.display = "none";
     }
   }, 3000);
-</script>
+</script> {% endcomment %}

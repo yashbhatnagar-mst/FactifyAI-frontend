@@ -14,14 +14,10 @@ urlpatterns = [
     path('',views.home_page,name="home"),
     path('about/',views.about_page,name="about"),
     path('analyze/',views.analyze_news,name='analyze'),
-    path('change_pass/', views.CustomPasswordChangeView,name='change_pass'),
-    path('change_pass/', views.CustomPasswordChangeView,name='change_pass'),
+    path('update_pass/', views.update_password_page,name='update_pass'),
     path('change_password/',views.new_password_page,name="change_password"),
     path('contact/',views.contact_page,name="contact"),
-    path('delete-account/', views.delete_account, name='delete_account'), 
-
-    # path('home/',views.home_page,name="home"),
-    
+    path('delete_account/',views.delete_account, name='delete_account'),  
     path('signup/',views.signup_page,name="signup"),
     path('login/',views.login_page,name="login"),
     path('logout/',views.logoutPage,name="logout"),
@@ -34,6 +30,7 @@ urlpatterns = [
     path('output/',views.output_page,name="output"),
     path('settings/',views.settings_page,name="settings"),
     path('trending/', views.trending, name='trending'),
+    path("dashboard/", views.dashboard, name="dashboard"),
     
         
     

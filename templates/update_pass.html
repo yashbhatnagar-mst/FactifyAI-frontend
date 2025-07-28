@@ -18,7 +18,7 @@
       Change Password
     </h2>
 
-    <form method="post">
+    <form method="post" action="{% url 'update_pass' %}">
       {% csrf_token %} {% if form.errors %}
       <div class="bg-red-100 text-red-700 p-2 mb-4 rounded text-sm">
         {{ form.errors }}
@@ -48,7 +48,7 @@
         >
         <input
           type="password"
-          name="new_password1"
+          name="new_password"
           id="new_password1"
           required
           class="mt-1 block w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white focus:ring-indigo-500 focus:border-indigo-500"

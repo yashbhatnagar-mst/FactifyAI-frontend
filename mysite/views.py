@@ -18,6 +18,7 @@ from django.views.decorators.cache import never_cache
 from django.http import HttpResponseRedirect
 from functools import wraps
 import requests # type: ignore
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 def cookie_required(cookie_name='access_token', redirect_url='login'):
@@ -34,7 +35,8 @@ def cookie_required(cookie_name='access_token', redirect_url='login'):
 
 
 def google_login_redirect(request):
-    return redirect(f'{settings.BACKEND_API_URL}/auth/google/login')
+     return redirect(f'{settings.BACKEND_API_URL}/auth/google/login')
+   
 
 
 def google_login_callback(request):
@@ -62,14 +64,14 @@ def auth_token_context(request):
     }
 
 
-
+@cookie_required(cookie_name='clarifyai_token', redirect_url='/login')
 def analyze_news(request):
     if request.method == 'POST':
         text = request.POST.get('text')
         url = request.POST.get('url')
         image = request.FILES.get('image')  
         audio = request.FILES.get('audio')
-        api_url = 'https://divyanshi09-factify-ai-backend.hf.space/api/auth/analyze'  
+        api_url =  f"{settings.BACKEND_API_URL}/auth/analyze/"
         files = {}
         data = {}
 
@@ -82,27 +84,44 @@ def analyze_news(request):
         if audio:
             files['audio'] = (audio.name, audio.read(), audio.content_type)
         
+        token = request.COOKIES.get('clarifyai_token')
+        print(token)
+        headers = {
+            'Authorization': f'Bearer {token}'
+        }
 
         try:
-            response = requests.post(api_url, data=data, files=files)
+            response = requests.post(api_url, data=data, files=files,headers=headers)
             print(response)
             if response.status_code == 200:
                 result = response.json()
 
                 # Example: extract needed values from API response
-                score = result.get('overall_weighted_score', 0)
+                score = result.get('overall_weighted_score',0)
                 findings = [
                     f"Sentiment: {result.get('sentiment')}",
                     f"Authenticity: {result.get('authenticity')}",
                     f"Bias Score: {result.get('bias_score')}",
                 ]
-                recommendations = ["Consider cross-checking the information."]
+
+                text = request.POST.get('text')
+                recommendations = result.get('url', ["url"])
+
+                print("Text:", text)                
+                print("URL:", url)  
+                print("Image:", image)
+                print("Audio:", audio)
+                print("API Response JSON:", result)
+
 
                 return render(request, 'output.html', {
                     'text': text,
+                    'score': round(60, 2),
                     'score': round(score, 2),
                     'findings': findings,
-                    'recommendations': recommendations
+                    'recommendations': recommendations,
+                    'result':result
+                    
                 })
 
             else:
@@ -154,49 +173,79 @@ def signup_page(request):
     return render(request,'signup.html')
     
 
+
+
+
+@login_required
+def dashboard(request):
+    user = request.user
+    email = user.email or ""
+    print(user)
+    print(email)
+    email_first_letter = email[0].upper() if email else ""
+    return render(request, "base.html", {
+        "email_first_letter": email_first_letter
+    })
+
+
+
 def login_page(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        passw = request.POST.get('password')
-
+        password = request.POST.get('password')
+        
         payload = {
             "username": email,
-            "password": passw
+            "password": password
         }
+        api_url = f"{settings.BACKEND_API_URL}/auth/login"
 
-        # Make request to backend API
-        response = requests.post(f"{settings.BACKEND_API_URL}/auth/login", data=payload)
-
-        # Parse response safely
         try:
-            api_response = response.json()
-        except ValueError:
-            api_response = {"message": "Invalid server response", "status": 500, "success": False}
+            resp = requests.post(api_url, data=payload, timeout=10)
+        except Exception as e:
+            print("Login request failed:", e)
+            messages.error(request, "Unable to reach authentication server.")
+            return redirect('login')
 
-        # Login success
-        if response.status_code == 200:
-            token = api_response.get("data", {}).get("access_token")
+        # print(" Status:", resp.status_code)
+        # print(" Resp body:", resp.text)
 
-            resp = redirect('output')
+        api_response = {}
+        ct = resp.headers.get("content-type", "")
+        if ct.startswith("application/json"):
+            try:
+                api_response = resp.json()
+            except ValueError as e:
+                print("JSON parse error:", e)
 
-            #  Set cookie without HttpOnly so frontend JS can access it
-            resp.set_cookie(
-                key="clarifyai_token",
-                value=token,
-                httponly=False,     #  JS can now read it
+        print(" Parsed JSON:", api_response, type(api_response))
+
+        raw_data = api_response.get("data")
+        data = raw_data if isinstance(raw_data, dict) else {}
+        access_token = data.get("access_token")
+
+        print(" Token:", access_token)
+
+        if resp.status_code == 200 and access_token:
+            django_resp = redirect('output')
+            django_resp.set_cookie(
+                "clarifyai_token",
+                access_token,
+                httponly=False,
                 samesite="Lax",
-                secure=False        #  Only use True if running on HTTPS
+                secure=False
             )
-
             messages.success(request, "Login successful!")
-            return resp
-
-        # Login failed
+            return django_resp
         else:
-            messages.error(request, api_response.get("message", "Invalid login details"))
+            messages.error(request, api_response.get("message") or "Invalid login")
             return redirect('login')
 
     return render(request, 'login.html')
+
+
+
+
 
 
 @cookie_required(cookie_name='clarifyai_token', redirect_url='/login')
@@ -229,12 +278,13 @@ def logoutPage(request):
     return response
 
 
-# @cookie_required(cookie_name='clarifyai_token', redirect_url='/login')
+@cookie_required(cookie_name='clarifyai_token', redirect_url='/login')
+@ensure_csrf_cookie
 @never_cache
 def output_page(request):
-    result=74
     
-    return render(request,'output.html',{'result':result})
+    
+    return render(request,'output.html')
 
 
 def forgot_page(request):
@@ -274,21 +324,22 @@ def forgot_page(request):
 def verification_page(request):
     if request.method == 'POST':
         otp = request.POST.get('otp')
-
-        # otp_email_cookie =request.COOKIES.get('otp_email')
         email = request.session.get('otp_email')
-        # cookies ={'otp_email': otp_email_cookie} if otp_email_cookie else {}
+        
+        print("User pressed verify. OTP:", otp, "| Email from session:", email)
        
-
-        resp = requests.post(
-            f"{settings.BACKEND_API_URL}/auth/verify-otp/",
-            json={"otp": otp,"email":email},
-            # cookies=email  # ← Cookie passed to FastAPI here
-        )
-
+        
         try:
+            resp = requests.post(
+                f"{settings.BACKEND_API_URL}/auth/verify-otp/",
+                json={"otp": otp},
+                cookies={"otp_email": email}
+            )
+            print("POST to backend:", resp.request.url)
+            print("Status code:", resp.status_code)
+            print("Response text:", resp.text)
             data = resp.json()
-            print(data)  #function call
+
         except ValueError:
             messages.error(request, "Invalid response from server.")
             return redirect('verification')
@@ -300,7 +351,7 @@ def verification_page(request):
             return redirect('verification')
 
         if data.get('status') == 200 and data.get("success"):
-            return redirect('change_pass')
+            return redirect('new_password')
         else:
             messages.error(request, data.get("errors", "OTP verification failed."))
             return redirect('verification')
@@ -311,85 +362,106 @@ def verification_page(request):
 
 
 
+
 def new_password_page(request):
     if request.method == "POST":
         pwd1 = request.POST.get("new_password1")
         pwd2 = request.POST.get("new_password2")
+        email = request.session.get('otp_email')
 
         if pwd1 != pwd2:
             messages.error(request, "Passwords do not match.")
             return render(request, "new_pass.html")
 
-        payload = {
-            "password": pwd1,
-            # Agar aap FastAPI me token/uid pass kar rahe hain:
-            "token": request.GET.get("token") or request.session.get("reset_token")
-        }
-
-        try:
-            resp = request.post(
-                f"{settings.BACKEND_API_URL}/auth/update-password/",
-                json=payload,
-                timeout=5
-            )
-            data = resp.json()
-        except Exception:
-            messages.error(request, "Server error. Please try again later.")
+        # token = request.GET.get("token") or request.session.get("reset_token")
+        if not email:
+            messages.error(request, "Missing email.")
             return render(request, "new_pass.html")
 
-        if resp['status'] == 200 and data.get("success"):
+        payload = {
+            "new_password": pwd1,
+            # "token": email
+        }
+        
+        try:
+           
+            resp = requests.post(
+                f"{settings.BACKEND_API_URL}/auth/reset-password/",
+                json=payload,
+                cookies={"otp_email": email}
+            )
+            print("POST to backend:", resp.request.url)
+            print("Status code:", resp.status_code)
+            print("Response text:", resp.text)
+            data = resp.json()
+
+        except ValueError:
+            messages.error(request, "Invalid JSON response from server.")
+            return render(request, "new_pass.html")
+        except Exception as e:
+            print("Request exception:", e)
+            messages.error(request, "Server error. Please try again.")
+            return render(request, "new_pass.html")
+
+        if isinstance(data, dict) and resp.status_code == 200 and data.get("success"):
             messages.success(request, data.get("message", "Password reset successful!"))
             return redirect("login")
         else:
-            messages.error(request, data.get("message", "Failed to reset password."))
+            err = data.get("message") or data.get("errors") or "Failed to reset password."
+            messages.error(request, err)
             return render(request, "new_pass.html")
 
     return render(request, "new_pass.html")
 
 
 
-
-
-def change_password_page(request):
-    # GET request pe form render karein
+def update_password_page(request):
     if request.method == "GET":
-        return render(request, "changepass.html")
+        return render(request, "update_pass.html")
 
-    # POST request pe process karein
-    if request.method == "POST":
+    elif request.method == "POST":
         old = request.POST.get("old_password")
         new = request.POST.get("new_password")
-        # validation
+
         if not old or not new:
             messages.error(request, "Fields cannot be empty.")
-            return render(request, "changepass.html")
+            return render(request, "update_pass.html")
 
-        # FastAPI endpoint ko call karein
-        resp = requests.post(
-            f"{settings.BACKEND_API_URL}/auth/reset-password",
-            json={
-                "old_password": old,
-                "new_password": new,
-                # agar email/session me hai:
-                "email": request.user.email
-            }
-        )
+        token = request.COOKIES.get('clarifyai_token')
+        print("Token:", token)
+        print("Old:", old)
+        print("New:", new)
+
+        if not token:
+            messages.error(request, "You must be logged in.")
+            return redirect("login")
+
+        headers = {
+            'Authorization': f'Bearer {token}'
+        }
 
         try:
+            resp = requests.put(
+                f"{settings.BACKEND_API_URL}/auth/update-password",
+                json={
+                    "old_password": old,
+                    "new_password": new
+                },
+                headers=headers
+            )
             data = resp.json()
-        except ValueError:
-            data = {}
+            print(data)
+        except Exception as e:
+            print("Request error:", e)
+            messages.error(request, "Something went wrong.")
+            return render(request, "update_pass.html")
 
-        # Response handle karein
-        if resp['status'] == 200 and data.get("success"):
+        if resp.status_code == 200 and data.get("success"):
             messages.success(request, data.get("message", "Password changed successfully."))
             return redirect("login")
         else:
             messages.error(request, data.get("message", "Failed to change password."))
-            return render(request, "change_pass.html")
-
-
-
+            return render(request, "update_pass.html")
 
 
 def contact_page(request):
@@ -470,30 +542,52 @@ def settings_page(request):
 @cookie_required(cookie_name='clarifyai_token', redirect_url='/login')
 @never_cache
 def delete_account(request):
+    print(" DELETE ACCOUNT VIEW HIT")
     if request.method == 'POST' and request.user.is_authenticated:
-        try:
-            resp = requests.delete(
-                f"{settings.BACKEND_API_URL}/auth/delete/",
-                cookies=request.COOKIES,
-                
-            )
-            data = resp.json() if resp.ok else {}
-        except Exception:
-            data = {}
 
-        if resp['status'] == 200 and data.get("success"):
-            # Backend deleted — now clean up locally
+        # Print karao user aur email/token for debugging
+        print("User:", request.user)
+        clarify_token = request.COOKIES.get('clarifyai_token')
+        print("Token from cookie:", clarify_token)
+
+        if not clarify_token:
+            messages.error(request, "Authentication token missing. Please log in again.")
+            return redirect('output')
+
+        headers = {
+            'Authorization': f'Bearer {clarify_token}',
+            'Accept': 'application/json',
+        }
+
+        # Final API URL — ensure base + route match backend
+        api_url = f"{settings.BACKEND_API_URL}/auth/delete/"
+        print("Calling FastAPI DELETE to:", api_url)
+
+        try:
+            resp = requests.delete(api_url, headers=headers, timeout=10)
+            print("Response status:", resp.status_code)
+            print("Response body:", resp.text)
+            data = resp.json() if resp.ok else {}
+        except Exception as e:
+            print("Request to FastAPI failed:", e)
+            messages.error(request, "Server error deleting account. Please try later.")
+            return redirect('output')
+
+        # Response handling
+        if resp.status_code == 200 and data.get("success"):
+            # successful deletion in backend
             user = request.user
             logout(request)
             user.delete()
             messages.success(request, "Your account was deleted successfully.")
             return redirect('base')
         else:
-            messages.error(request, data.get("message", "Could not delete account."))
-            return redirect('settings')
-    return redirect('settings')
+            err = data.get("message") or data.get("error") or "Could not delete account."
+            messages.error(request, err)
+            return redirect('output')
 
-
+    # agar GET request ho
+    return redirect('output')
 
 
 @method_decorator(login_required, name='dispatch')
