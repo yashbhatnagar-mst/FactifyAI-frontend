@@ -171,22 +171,6 @@ def signup_page(request):
             return redirect('signup')
         
     return render(request,'signup.html')
-    
-
-
-
-
-@login_required
-def dashboard(request):
-    user = request.user
-    email = user.email or ""
-    print(user)
-    print(email)
-    email_first_letter = email[0].upper() if email else ""
-    return render(request, "base.html", {
-        "email_first_letter": email_first_letter
-    })
-
 
 
 def login_page(request):
@@ -207,9 +191,6 @@ def login_page(request):
             messages.error(request, "Unable to reach authentication server.")
             return redirect('login')
 
-        # print(" Status:", resp.status_code)
-        # print(" Resp body:", resp.text)
-
         api_response = {}
         ct = resp.headers.get("content-type", "")
         if ct.startswith("application/json"):
@@ -218,19 +199,27 @@ def login_page(request):
             except ValueError as e:
                 print("JSON parse error:", e)
 
-        print(" Parsed JSON:", api_response, type(api_response))
-
         raw_data = api_response.get("data")
         data = raw_data if isinstance(raw_data, dict) else {}
         access_token = data.get("access_token")
 
-        print(" Token:", access_token)
+       
 
         if resp.status_code == 200 and access_token:
+            first_letter = email[0].upper()
             django_resp = redirect('output')
+
             django_resp.set_cookie(
                 "clarifyai_token",
                 access_token,
+                httponly=False,
+                samesite="Lax",
+                secure=False
+            )
+
+            django_resp.set_cookie(
+                "email_first_letter",
+                first_letter,
                 httponly=False,
                 samesite="Lax",
                 secure=False
@@ -244,10 +233,6 @@ def login_page(request):
     return render(request, 'login.html')
 
 
-
-
-
-
 @cookie_required(cookie_name='clarifyai_token', redirect_url='/login')
 @never_cache
 def navbar(request):
@@ -258,7 +243,6 @@ def navbar(request):
     return render(request, 'base.html', {
         'is_logged_in': is_logged_in
     })
-
 
 
 def logoutPage(request):
@@ -282,7 +266,6 @@ def logoutPage(request):
 @ensure_csrf_cookie
 @never_cache
 def output_page(request):
-    
     
     return render(request,'output.html')
 
@@ -318,8 +301,6 @@ def forgot_page(request):
         return redirect('forgot')
 
     return render(request, 'forgot.html')
-
-
 
 def verification_page(request):
     if request.method == 'POST':
@@ -359,7 +340,6 @@ def verification_page(request):
     return render(request, 'verification.html', {
         "email": request.GET.get('email', '')
     })
-
 
 
 
@@ -412,7 +392,6 @@ def new_password_page(request):
             return render(request, "new_pass.html")
 
     return render(request, "new_pass.html")
-
 
 
 def update_password_page(request):
@@ -508,12 +487,8 @@ def about_page(request):
     return render(request,'about.html')
 
 
-
-
 def create_password_view(request):
      return render(request,'new_pass.html')
-
-
 
 
 
@@ -664,13 +639,5 @@ def trending(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
+def term(request):
+    return render(request,'Term_and_use.html')

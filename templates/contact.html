@@ -1,24 +1,22 @@
 {% extends "base.html" %} {% block content %} {% load static %}
 
 <style>
-      @keyframes slide-in {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      
-      
-      .animate-slide-in {
-        animation: slide-in 0.3s ease-out;
-    }
- }
+        @keyframes slide-in {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+
+
+        .animate-slide-in {
+          animation: slide-in 0.3s ease-out;
+      }
+   }
 </style>
-
-
 
 <div class="bg-[var(--backgroud-color)] text-black font-sans mb-6">
   <!-- Header -->
@@ -65,7 +63,7 @@
               name="name"
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              style="color: var(--sec_color); font-family: var(--font-main);"
+              style="color: var(--sec_color); font-family: var(--font-main)"
             />
           </div>
 
@@ -82,7 +80,7 @@
               name="email"
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              style="color: var(--sec_color); font-family: var(--font-main);"
+              style="color: var(--sec_color); font-family: var(--font-main)"
             />
           </div>
 
@@ -99,14 +97,13 @@
               rows="4"
               required
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              style="color: var(--sec_color); font-family: var(--font-main);"
+              style="color: var(--sec_color); font-family: var(--font-main)"
             ></textarea>
           </div>
 
           <button
             type="submit"
             class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
-            
           >
             Send Message
           </button>
@@ -117,12 +114,3 @@
 </div>
 
 {% endblock %}
-
-{% comment %} <script>
-  setTimeout(() => {
-    const toast = document.getElementById("toast");
-    if (toast) {
-      toast.style.display = "none";
-    }
-  }, 3000);
-</script> {% endcomment %}

@@ -28,10 +28,6 @@ urlpatterns = [
     path('login/google/',views.google_login_redirect, name='google_login'),
     path('login/callback/', views.google_login_callback, name='google_callback'),
     path('output/',views.output_page,name="output"),
-    path('settings/',views.settings_page,name="settings"),
-    path('trending/', views.trending, name='trending'),
-    path("dashboard/", views.dashboard, name="dashboard"),
-    
-        
-    
+    path('trending/',views.trending, name='trending'),
+    path('term/', views.term, name='term'),        
 ]

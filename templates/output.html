@@ -1,30 +1,4 @@
-
-{% extends 'base.html' %}
-{% load static %}
-
-
-{% block content %}
-<style>
-  :root {
-    --primary-color: #8a4af3;
-    --background-color: #ffffff;
-    --text-color: #222;
-    --sec_color: #222;
-    --font-main: 'inter', sans-serif;
-  }
-
-  .dark {
-    --background-color: #111827;
-    --text-color: #ffffff;
-    --sec_color: #222;
-  }
-
-  body {
-    font-family: var(--font-main);
-    background-color: var(--background-color);
-    color: var(--text-color);
-  }
-</style>
+{% extends 'base.html' %} {% load static %} {% block content %}
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -35,44 +9,83 @@
   </h2>
 </div>
 
-<section class="max-w-[73rem] text-[var(--font-main)] text-[var(--text-color)] mx-auto p-6 rounded-lg shadow-lg space-y-6 bg-gradient-to-br from-blue-50 to-white ml-48">
-
-  <form method="POST" action="{% url 'analyze' %}" enctype="multipart/form-data">
+<section
+  class="max-w-[73rem] text-[var(--font-main)] text-[var(--text-color)] mx-auto p-6 rounded-lg shadow-lg space-y-6 bg-gradient-to-br from-blue-50 to-white ml-48"
+>
+  <form
+    method="POST"
+    action="{% url 'analyze' %}"
+    enctype="multipart/form-data"
+  >
     {% csrf_token %}
 
-    <label class="block font-semibold mb-2" style="color: var(--sec_color); font-family: var(--font-main);">
+    <label
+      class="block font-semibold mb-2"
+      style="color: var(--sec_color); font-family: var(--font-main)"
+    >
       Enter News Content
     </label>
 
     <div class="relative">
-      <textarea id="news-text" name="text" rows="5"
+      <textarea
+        id="news-text"
+        name="text"
+        rows="5"
         class="w-full rounded border border-gray-300 bg-gray-50 p-4 pr-24 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Paste or type your news content here...">{{ text|default:"" }}</textarea>
+        style="color: var(--sec_color); font-family: var(--font-main)"
+        placeholder="Paste or type your news content here..."
+      >
+{{ text|default:"" }}</textarea
+      >
 
       <div class="absolute top-2 right-2 flex space-x-2">
         <label for="image-upload" title="Upload Image">
           <i class="fa-solid fa-images"></i>
         </label>
-        <input id="image-upload" name="image" type="file" accept="image/*" class="hidden" />
+        <input
+          id="image-upload"
+          name="image"
+          type="file"
+          accept="image/*"
+          class="hidden"
+        />
 
         <label for="audio-upload" title="Upload Audio">
           <i class="fa-solid fa-microphone"></i>
         </label>
-        <input id="audio-upload" name="audio" type="file" accept="audio/*" class="hidden" />
+        <input
+          id="audio-upload"
+          name="audio"
+          type="file"
+          accept="audio/*"
+          class="hidden"
+        />
       </div>
     </div>
 
     <div class="mt-6">
-      <label class="block font-semibold mb-2" style="color: var(--sec_color); font-family: var(--font-main);">
+      <label
+        class="block font-semibold mb-2"
+        style="color: var(--sec_color); font-family: var(--font-main)"
+      >
         URL here (optional)
       </label>
-      <input name="url" id="url-input" type="url" value="{{ url|default:'' }}" placeholder="Paste the news article URL"
-        class="w-full rounded border border-gray-300 bg-gray-50 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <input
+        name="url"
+        id="url-input"
+        type="url"
+        value="{{ url|default:'' }}"
+        placeholder="Paste the news article URL"
+        class="w-full rounded border border-gray-300 bg-gray-50 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        style="color: var(--sec_color); font-family: var(--font-main)"
+      />
     </div>
 
     <div class="mt-6 text-center">
-      <button type="submit"
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-md transition duration-200 shadow-md">
+      <button
+        type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-md transition duration-200 shadow-md"
+      >
         <i class="fa-solid fa-magnifying-glass"></i> Analyze News
       </button>
     </div>
@@ -82,7 +95,9 @@
       <div class="relative w-80 h-80">
         <canvas id="credibilityMeter" class="w-full h-full"></canvas>
         <div class="absolute inset-0 flex items-center justify-center">
-          <span id="meterText" class="text-2xl font-bold text-gray-800">{{ score }}%</span>
+          <span id="meterText" class="text-2xl font-bold text-gray-800"
+            >{{ score }}%</span
+          >
         </div>
       </div>
       <p class="mt-4 text-sm text-gray-500">Overall credibility score</p>
@@ -173,30 +188,41 @@
         </h3>
         <p class="text-gray-700">
           <strong>Sentiment:</strong>
-          <span class="{% if result.sentiment.label_data == 'POSITIVE' %}text-green-600{% elif result.sentiment.label_data == 'NEGATIVE' %}text-red-600{% else %}text-yellow-600{% endif %}">
+          <span
+            class="{% if result.sentiment.label_data == 'POSITIVE' %}text-green-600{% elif result.sentiment.label_data == 'NEGATIVE' %}text-red-600{% else %}text-yellow-600{% endif %}"
+          >
             {{ result.sentiment.label_data }}
           </span>
-          <br>
+          <br />
           Confidence: {{ result.sentiment.score|floatformat:2 }}
         </p>
       </div>
 
       <div class="bg-gray-50 border-l-4 border-orange-500 p-4 rounded">
         <h3 class="text-lg font-semibold text-gray-800 mb-2">
-          <i class="fa-solid fa-magnifying-glass text-blue-500 mr-2"></i> Authenticity Check
+          <i class="fa-solid fa-magnifying-glass text-blue-500 mr-2"></i>
+          Authenticity Check
         </h3>
-        <p class="text-gray-700"><strong>Verdict:</strong> {{ result.authenticity.verdict }}</p>
-        <p class="text-gray-700"><strong>Score:</strong> {{ result.authenticity.score|floatformat:2 }}</p>
-        <p class="text-sm text-gray-500 italic">Source: {{ result.authenticity.source }}</p>
+        <p class="text-gray-700">
+          <strong>Verdict:</strong> {{ result.authenticity.verdict }}
+        </p>
+        <p class="text-gray-700">
+          <strong>Score:</strong> {{ result.authenticity.score|floatformat:2 }}
+        </p>
+        <p class="text-sm text-gray-500 italic">
+          Source: {{ result.authenticity.source }}
+        </p>
       </div>
 
       <div class="bg-gray-50 border-l-4 border-yellow-500 p-4 rounded">
         <h3 class="text-lg font-semibold text-gray-800 mb-2">
-          <i class="fa-solid fa-scale-balanced text-blue-600 mr-2"></i> Bias Detection
+          <i class="fa-solid fa-scale-balanced text-blue-600 mr-2"></i> Bias
+          Detection
         </h3>
         <p class="text-gray-700">
-          <strong>Bias Level:</strong> {{ result.bias_score.bias_level }}<br>
-          <strong>Bias Score:</strong> {{ result.bias_score.bias_score|floatformat:2 }}
+          <strong>Bias Level:</strong> {{ result.bias_score.bias_level }}<br />
+          <strong>Bias Score:</strong> {{
+          result.bias_score.bias_score|floatformat:2 }}
         </p>
       </div>
 
@@ -204,20 +230,34 @@
         <h3 class="text-lg font-semibold text-gray-800 mb-2">
           <i class="fa-solid fa-book-check text-blue-600 mr-2"></i> Fact Check
         </h3>
-        <p class="text-gray-700"><strong>Claim Checked:</strong> {{ result.fact_check_result.claim_text }}</p>
-        <p class="text-gray-700"><strong>Rating:</strong> {{ result.fact_check_result.rating }}</p>
+        <p class="text-gray-700">
+          <strong>Claim Checked:</strong> {{ result.fact_check_result.claim_text
+          }}
+        </p>
+        <p class="text-gray-700">
+          <strong>Rating:</strong> {{ result.fact_check_result.rating }}
+        </p>
         <p class="text-sm text-blue-600">
-          Source: <a href="{{ result.fact_check_result.url }}" class="underline" target="_blank">
+          Source:
+          <a
+            href="{{ result.fact_check_result.url }}"
+            class="underline"
+            target="_blank"
+          >
             {{ result.fact_check_result.title }}
-          </a> ({{ result.fact_check_result.publisher }})
+          </a>
+          ({{ result.fact_check_result.publisher }})
         </p>
       </div>
 
       <div class="bg-white border rounded p-4 shadow-sm">
         <h3 class="text-lg font-semibold text-gray-800 mb-2">
-          <i class="fa-solid fa-pen-to-square text-indigo-600 mr-2"></i> Your Input
+          <i class="fa-solid fa-pen-to-square text-indigo-600 mr-2"></i> Your
+          Input
         </h3>
-        <div class="whitespace-pre-wrap text-gray-700 bg-gray-50 rounded p-4 border border-gray-200">
+        <div
+          class="whitespace-pre-wrap text-gray-700 bg-gray-50 rounded p-4 border border-gray-200"
+        >
           {{ text }}
         </div>
       </div>

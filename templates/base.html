@@ -5,7 +5,11 @@
   <head>
     <meta charset="UTF-8" />
     <title>{% block title %}Factifyai{% endblock %}</title>
-    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png" />
+    <link
+      rel="icon"
+      href="{% static 'images/favicon.png' %}"
+      type="image/png"
+    />
 
     <link
       rel="stylesheet"
@@ -17,14 +21,11 @@
       rel="stylesheet"
     />
 
-    
-
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Static CSS -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
     <link rel="stylesheet" href="{% static 'css/middle_content.css' %}" />
   </head>
 
@@ -32,19 +33,20 @@
     class="bg-[var(--background-color)] text-[var(--text-color)] transition-all duration-300"
   >
     <main>
-      {% include 'navbar.html'%} 
-      {% block content %}
-      {% include 'Home.html'%}
-      {%include 'middle_content.html'%}
-      {% endblock %} 
-      {% include 'footer.html' %}
+      {% include 'navbar.html'%} {% block content %} {% include 'Home.html'%}
+      {%include 'middle_content.html'%} {% endblock %} {% include 'footer.html'
+      %}
     </main>
 
     <!-- Loader Overlay -->
-    <div id="loaderOverlay" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
-     <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-white border-opacity-70"></div>
-     </div>
-
+    <div
+      id="loaderOverlay"
+      class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden"
+    >
+      <div
+        class="animate-spin rounded-full h-16 w-16 border-t-4 border-white border-opacity-70"
+      ></div>
+    </div>
   </body>
 
   <script>
@@ -91,19 +93,17 @@
     }
   </script>
 
-
-{% comment %} ++++++++++++Loader script ++++++++++++++++++ {% endcomment %}
+  {% comment %} ++++++++++++Loader script ++++++++++++++++++ {% endcomment %}
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const loader = document.getElementById("loaderOverlay");
-    const forms = document.querySelectorAll("form");
+    document.addEventListener("DOMContentLoaded", function () {
+      const loader = document.getElementById("loaderOverlay");
+      const forms = document.querySelectorAll("form");
 
-    forms.forEach(form => {
-      form.addEventListener("submit", function () {
-        loader.classList.remove("hidden");
+      forms.forEach((form) => {
+        form.addEventListener("submit", function () {
+          loader.classList.remove("hidden");
+        });
       });
     });
-  });
-</script>
-
+  </script>
 </html>

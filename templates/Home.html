@@ -1,101 +1,133 @@
-
-
 {% load static %}
 
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="{% static 'css/home.css' %}" />
 
+<style>
+  .button {
+    text-decoration: none;
+    line-height: 1;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 10px 13px 25px rgba(0, 0, 0, 0.08);
+    background-color: #fff;
+    color: #121212;
+    border: none;
+    cursor: pointer;
+  }
 
-<style> 
-.button {
-  text-decoration:none;
-  line-height: 1;
-  border-radius: 1.5rem;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 10px 13px 25px rgba(0, 0, 0, 0.08);
-  background-color: #fff;
-  color: #121212;
-  border: none;
-  cursor: pointer;
-}
+  .button-decor {
+    position: absolute;
+    inset: 0;
+    background-color: var(--clr);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    z-index: 0;
+  }
 
-.button-decor {
-  position: absolute;
-  inset: 0;
-  background-color:var(--clr);
-  transform: translateX(-100%);
-  transition: transform 0.3s;
-  z-index: 0;
-}
+  .button-content {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+  }
 
-.button-content {
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  position: relative;
-  overflow: hidden;
-}
+  .button__icon {
+    width: 48px;
+    height: 45px;
+    background-color: var(--clr);
+    display: grid;
+    place-items: center;
+  }
 
-.button__icon {
-  width: 48px;
-  height: 45px;
-  background-color: var(--clr);
-  display: grid;
-  place-items: center;
-}
+  .button__text {
+    display: inline-block;
+    transition: color 0.2s;
+    padding: 2px 1.5rem 2px;
+    padding-left: 0.75rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 
-.button__text {
-  display: inline-block;
-  transition: color 0.2s;
-  padding: 2px 1.5rem 2px;
-  padding-left: 0.75rem;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow:ellipsis;
-  
-}
+  .button:hover .button__text {
+    color: #fff;
+  }
 
-.button:hover .button__text {
-  color: #fff;
-}
-
-.button:hover .button-decor {
-  transform: translate(0);
-} 
-
+  .button:hover .button-decor {
+    transform: translate(0);
+  }
 </style>
 
-
-
 {% block home %}
-<section class="relative w-full min-h-[65vh]  bg-[var(--background-color)]">
-
+<section class="relative w-full min-h-[65vh] bg-[var(--background-color)]">
   <div
-    class="flex flex-col justify-center items-center h-full text-black text-center space-y-6 pt-28">
+    class="flex flex-col justify-center items-center h-full text-black text-center space-y-6 pt-28"
+  >
+    {% comment %}
+    <h1
+      class="text-[var(--font-main)] text-[var(--text-color)] text-[48px] md:text-7xl mt-15 leading-tight text-center dropping-texts"
+    >
+      Fight Fake News with Just <br />
+      <span class="text-blue-500 mt-3 inline-block"> One Click</span>
+    </h1>
+    {% endcomment %}
 
     <h1
-      class="text-[var(--font-main)] text-[var(--text-color)] text-[48px] md:text-7xl  mt-15 leading-tight text-center dropping-texts">
-      Fight Fake News with Just <br />
-      <span class="text-blue-500  mt-3 inline-block"> One Click</span>
+      class="text-[var(--font-main)] text-[var(--text-color)] text-8xl md:text-7xl mt-15 leading-tight text-center"
+    >
+      Fight Fake
+      <span
+        class="relative inline-block w-[5ch] h-[80px] overflow-hidden align-middle"
+      >
+        <span
+          id="wordContainer"
+          class="absolute top-0 left-0 w-full transition-transform duration-500 ease-in-out"
+        >
+          <span class="block h-[80px] text-blue-500">News</span>
+          <span class="block h-[80px] text-green-500">Story</span>
+          <span class="block h-[80px] text-yellow-500">Scoop</span>
+          <span class="block h-[80px] text-pink-500">Rumor</span>
+          <span class="block h-[80px] text-purple-500">Facts</span>
+        </span>
+      </span>
+      with Just <br />
+      <span class="text-blue-500 mt-3 inline-block"> One Click</span>
     </h1>
 
-    <p class="text-[18px] max-w-lg text-[var(--text-color)] ">
+    <p class="text-[18px] max-w-lg text-[var(--text-color)]">
       Verify the authenticity of news articles with our advanced detection
       technology. Stay informed, stay confident.
     </p>
 
-      <button class="button" style="--clr:#3B82F6"; onclick="window.location.href='{% url 'signup' %}'">
-        <span class="button-decor"></span>
-        <div class="button-content">
-          <div class="button__icon">
-            <i class="fas fa-arrow-right text-white"></i>
-          </div>
-          <span class="button__text">Get Started</span>
+    <button
+      class="button"
+      style="--clr: #3b82f6"
+      ;
+      onclick="window.location.href='{% url 'signup' %}'"
+    >
+      <span class="button-decor"></span>
+      <div class="button-content">
+        <div class="button__icon">
+          <i class="fas fa-arrow-right text-white"></i>
         </div>
-      </button>
-
+        <span class="button__text">Get Started</span>
+      </div>
+    </button>
   </div>
+
+  <script>
+    const wordContainer = document.getElementById("wordContainer");
+    const totalWords = wordContainer.children.length;
+    let index = 0;
+
+    setInterval(() => {
+      index = (index + 1) % totalWords;
+      const translateY = -index * 80; // height of each word block
+      wordContainer.style.transform = `translateY(${translateY}px)`;
+    }, 2000);
+  </script>
 </section>
 
 {% endblock %}

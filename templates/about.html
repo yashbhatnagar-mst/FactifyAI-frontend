@@ -22,15 +22,15 @@
     width: 100%;
   }
 
+  .scrolling-wrapper:hover .scrolling-content {
+    animation-play-state: paused; /*  This pauses the animation */
+  }
+
   .scrolling-content {
     display: flex;
     width: max-content;
     animation: scroll 30s linear infinite;
-  }
-
-  .scrolling-content > .card {
-    flex-shrink: 0;
-    margin-right: 2rem;
+    animation-play-state: running;
   }
 </style>
 
@@ -172,10 +172,14 @@
           <h3 class="text-2xl font-semibold">Divyanshi Vishnoi</h3>
           <p class="text-sm text-black-500">Backend Developer</p>
           <div class="mt-4 flex justify-center space-x-4 text-lg text-current">
-            <a href="#" class="hover:text-blue-400"
+            <a
+              href="https://github.com/Divyanshivishnoi"
+              class="hover:text-blue-400"
               ><i class="fab fa-github"></i
             ></a>
-            <a href="#" class="hover:text-blue-500"
+            <a
+              href="https://www.linkedin.com/in/divyanshi09/"
+              class="hover:text-blue-500"
               ><i class="fab fa-linkedin"></i
             ></a>
             <a href="#" class="hover:text-pink-400"
@@ -216,10 +220,14 @@
           <h3 class="text-2xl font-semibold">Aditi Veniwal</h3>
           <p class="text-sm text-black-500">Backend Developer</p>
           <div class="mt-4 flex justify-center space-x-4 text-lg text-current">
-            <a href="#" class="hover:text-blue-400"
+            <a
+              href="https://github.com/aditi-veniwal"
+              class="hover:text-blue-400"
               ><i class="fab fa-github"></i
             ></a>
-            <a href="#" class="hover:text-blue-500"
+            <a
+              href="https://www.linkedin.com/in/aditi-veniwal/"
+              class="hover:text-blue-500"
               ><i class="fab fa-linkedin"></i
             ></a>
             <a href="#" class="hover:text-pink-400"
@@ -238,10 +246,12 @@
           <h3 class="text-2xl font-semibold">Nischal Sharma</h3>
           <p class="text-sm text-black-500">Frontend Developer</p>
           <div class="mt-4 flex justify-center space-x-4 text-lg text-current">
-            <a href="#" class="hover:text-blue-400"
+            <a href="https://github.com/nischal-mst" class="hover:text-blue-400"
               ><i class="fab fa-github"></i
             ></a>
-            <a href="#" class="hover:text-blue-500"
+            <a
+              href="http://linkedin.com/in/nischal-sharma-10a605332"
+              class="hover:text-blue-500"
               ><i class="fab fa-linkedin"></i
             ></a>
             <a href="#" class="hover:text-pink-400"
