@@ -116,8 +116,8 @@ def analyze_news(request):
 
                 return render(request, 'output.html', {
                     'text': text,
-                    'score': round(60, 2),
-                    'score': round(score, 2),
+                    'score': round(60,2),
+                    'score': round(score,2),
                     'findings': findings,
                     'recommendations': recommendations,
                     'result':result
@@ -140,6 +140,8 @@ def analyze_news(request):
                 'findings': ["Error connecting to analysis server."],
                 'recommendations': []
             })
+        
+
 
     return render(request, 'output.html')
 

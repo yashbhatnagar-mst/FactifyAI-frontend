@@ -7,7 +7,7 @@
 {% block content %}
 
 
-<div class="h-340 bg-gray-100 text-gray-900 flex justify-center">
+<div class="h-340 flex justify-center" style="background: var(--background-color); color: var(--text-color);">
   <div
     class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1"
   >
@@ -66,21 +66,24 @@
             {% endfor %} {% endif %}
 
             <!-- Signup Form -->
-            <form method="POST" action="{% url 'signup' %}" class="space-y-4"> 
+            <form method="POST" action="{% url 'signup' %}" class="space-y-4" autocomplete="off"> 
            
              {% csrf_token %} 
  
               <input
                 name="name"
                 class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                style="color: var(--sec_color); font-family: var(--font-main)"
                 type="text"
                 placeholder="Username"
                 required
+                autocomplete="off"
               />
 
               <input
                 name="email"
-                class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white "
+                style="color: var(--sec_color); font-family: var(--font-main)"
                 type="email"
                 placeholder="Email"
                 required
@@ -89,6 +92,7 @@
               <input
                 name="password"
                 class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                style="color: var(--sec_color); font-family: var(--font-main)"
                 type="password"
                 placeholder="Password"
                 required

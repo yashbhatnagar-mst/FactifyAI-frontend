@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %}  {% block content %}
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -207,7 +207,7 @@
           <strong>Verdict:</strong> {{ result.authenticity.verdict }}
         </p>
         <p class="text-gray-700">
-          <strong>Score:</strong> {{ result.authenticity.score|floatformat:2 }}
+          <strong>Score:</strong> {{ result.authenticity.score_per|floatformat:2 }}%
         </p>
         <p class="text-sm text-gray-500 italic">
           Source: {{ result.authenticity.source }}
