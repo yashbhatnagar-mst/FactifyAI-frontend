@@ -71,7 +71,7 @@ def analyze_news(request):
         url = request.POST.get('url')
         image = request.FILES.get('image')  
         audio = request.FILES.get('audio')
-        api_url =  f"{settings.BACKEND_API_URL}/auth/analyze/"
+        api_url =  f"{settings.BACKEND_API_URL}/auth/analyze"
         files = {}
         data = {}
 
@@ -97,7 +97,10 @@ def analyze_news(request):
                 result = response.json()
 
                 # Example: extract needed values from API response
-                score = result.get('overall_weighted_score',0)
+                # score = result.get('overall_weighted_score',0)
+                score = result['authenticity']['score']
+                per= round(score * 100, 2)
+
                 findings = [
                     f"Sentiment: {result.get('sentiment')}",
                     f"Authenticity: {result.get('authenticity')}",
@@ -116,8 +119,8 @@ def analyze_news(request):
 
                 return render(request, 'output.html', {
                     'text': text,
-                    'score': round(60,2),
-                    'score': round(score,2),
+                    'score':round(60,2),
+                    'per': round(score*100,2),
                     'findings': findings,
                     'recommendations': recommendations,
                     'result':result
@@ -446,43 +449,40 @@ def update_password_page(request):
 
 
 def contact_page(request):
-    if request.method == "GET":
-        return render(request, "contact.html")
+    if request.method == 'POST':
+        payload = {
+            "name": request.POST.get('name'),
+            "email": request.POST.get('email'),
+            "message": request.POST.get('message')
+        }
 
-    # POST handle
-    name = request.POST.get("name")
-    email = request.POST.get("email")
-    msg = request.POST.get("message")
-
-    if not (name and email and msg):
-        messages.error(request, "All fields are required.")
-        return render(request, "contact.html")
-
-    payload = {
-        "name": name,
-        "email": email,
-        "message": msg
-    }
-
-    try:
-        resp = requests.post(
-            f"{settings.BACKEND_API_URL}/misc/contact/",
-            json=payload,
+        try:
+            resp = requests.post(
+                f"{settings.BACKEND_API_URL}/misc/contact",
+                json=payload,  #  use 'data=', not 'resp='
+                timeout=10     # Optional: avoid hanging requests
+            )
+            data = resp.json()
+            print("Response from backend:", data)
+            print("Raw Response:", resp.status_code)
             
-        )
-        data = resp.json()
-        print(data)
-    except Exception as e:
-        messages.error(request, "Server error — try again later.")
-        return render(request, "contact.html")
 
-    if data['status'] == 200 and data.get("success"):
-        messages.success(request, data.get("message", "Thank you! We received your message."))
-        return redirect("contact")
-    else:
-        messages.error(request, data.get("message", "Could not send message."))
-        return render(request, "contact.html")
-    
+            #  Safely check keys to avoid KeyError
+            if data.get('status') == 200 and data.get("success"):
+                print('status')
+                messages.success(request, data.get("message", "Thank you! We received your message."))
+                return redirect("contact")
+            else:
+                messages.error(request, data.get("message", "Could not send message."))
+                return render(request, "contact.html")
+
+        except Exception as e:
+            print("Error:", e)
+            messages.error(request, "Server error — try again later.")
+            return render(request, "contact.html")
+
+    return render(request, "contact.html")
+
 
 
 def about_page(request):

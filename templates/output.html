@@ -62,14 +62,21 @@
         />
       </div>
     </div>
+    
 
     <div class="mt-6">
+
+      <p id="image-name" class="text-sm text-gray-600 mt-2"></p>
+      <input id="image-upload" name="image" type="file" accept="image/*" class="hidden"/>
+
       <label
         class="block font-semibold mb-2"
         style="color: var(--sec_color); font-family: var(--font-main)"
       >
         URL here (optional)
       </label>
+
+      
       <input
         name="url"
         id="url-input"
@@ -96,7 +103,7 @@
         <canvas id="credibilityMeter" class="w-full h-full"></canvas>
         <div class="absolute inset-0 flex items-center justify-center">
           <span id="meterText" class="text-2xl font-bold text-gray-800"
-            >{{ score }}%</span
+            >{{ per }}%</span
           >
         </div>
       </div>
@@ -207,7 +214,7 @@
           <strong>Verdict:</strong> {{ result.authenticity.verdict }}
         </p>
         <p class="text-gray-700">
-          <strong>Score:</strong> {{ result.authenticity.score_per|floatformat:2 }}%
+          <strong>Score:</strong> {{ per }}%
         </p>
         <p class="text-sm text-gray-500 italic">
           Source: {{ result.authenticity.source }}
@@ -229,9 +236,11 @@
         <h3 class="text-lg font-semibold text-gray-800 mb-2">
           <i class="fa-solid fa-book-check text-blue-600 mr-2"></i> Fact Check
         </h3>
+        {% comment %} <p class="text-gray-700">
+          <strong>Claim Checked:</strong> {{result.fact_check_result}}
+        </p> {% endcomment %}
         <p class="text-gray-700">
-          <strong>Claim Checked:</strong> {{ result.fact_check_result.claim_text
-          }}
+          <strong>Claim Text:</strong> {{result.fact_check_result.claim_text}}
         </p>
         <p class="text-gray-700">
           <strong>Rating:</strong> {{ result.fact_check_result.rating }}
@@ -264,4 +273,20 @@
     {% endif %}
   </form>
 </section>
+
+
+<script>
+  const imageInput = document.getElementById("image-upload");
+  const imageNameDisplay = document.getElementById("image-name");
+
+  imageInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (file) {
+      imageNameDisplay.textContent = `Uploaded: ${file.name}`;
+    } else {
+      imageNameDisplay.textContent = "";
+    }
+  });
+</script>
+
 {% endblock %}

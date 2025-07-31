@@ -6,16 +6,17 @@ import os
 
 
 ALLOWED_HOSTS = [
+     "factifyai-frontend.onrender.com", 
     "localhost",
-     "127.0.0.1",
-    "divyanshi09-factify-ai-backend.hf.space",
-    "factifyai-frontend.onrender.com", 
+     "127.0.0.1"
+    # "divyanshi09-factify-ai-backend.hf.space",
+   
 ]
 
-# BACKEND_API_URL = "http://localhost:8000/api"
+BACKEND_API_URL = "http://localhost:8000/api"
 
 # BACKEND_API_URL = "https://divyanshi09-factify-ai-backend.hf.space/api"
-BACKEND_API_URL = "https://divyanshi09-factify-ai-backend.hf.space/api"
+# BACKEND_API_URL = "https://divyanshi09-factify-ai-backend.hf.space/api"
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

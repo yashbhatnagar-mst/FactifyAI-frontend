@@ -11,6 +11,18 @@
     >
       Change Password
     </h2>
+     
+     {% comment %} {% for message in messages %}
+         {{ message }}
+        {% endfor %} {% endcomment %}
+
+    {% if messages %}
+  {% for message in messages %}
+    <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}    
 
     <form method="post" action="{% url 'update_pass' %}">
       {% csrf_token %} {% if form.errors %}

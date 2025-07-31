@@ -124,7 +124,7 @@
     <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Settings</h2>   
   
    
-   {% if messages %}
+   {% comment %} {% if messages %}
   {% for message in messages %}
     <div class="p-3 rounded text-white
          {% if message.tags == 'success' %} bg-green-500
@@ -134,7 +134,7 @@
       {{ message }}
     </div>
   {% endfor %}
-{% endif %}
+{% endif %} {% endcomment %}
 
     <!-- Settings Form -->
     <form method="POST" action="">

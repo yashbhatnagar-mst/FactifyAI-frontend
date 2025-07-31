@@ -46,7 +46,13 @@
       <!-- Form -->
 
       <div class="w-full md:w-1/2 bg-blue-50 p-6 rounded-lg shadow-md">
-        {% for message in messages %} {{ message }} {% endfor %}
+         {% if messages %}
+        {% for message in messages %}
+         <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4">
+         {{ message }}
+        </div>
+       {% endfor %}
+        {% endif %}
 
         <form method="POST" action="">
           {% csrf_token %}
