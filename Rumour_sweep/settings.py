@@ -4,10 +4,17 @@ from pathlib import Path
 import os
 
 
+
+ALLOWED_HOSTS = [
+    "localhost",
+     "127.0.0.1",
+    "factifyai-frontend.onrender.com",  # <-- Add this
+]
+
 # BACKEND_API_URL = "http://localhost:8000/api"
 
 BACKEND_API_URL = "https://divyanshi09-factify-ai-backend.hf.space/api"
-# BACKEND_API_URL = "https://divyanshi09-factify-ai-backend.hf.space/api"
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

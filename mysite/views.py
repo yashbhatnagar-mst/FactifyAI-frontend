@@ -643,3 +643,10 @@ def trending(request):
 
 def term(request):
     return render(request,'Term_and_use.html')
+
+
+def success_page(request):
+    return render(request,'success.html')
+
+def extension_btn(request):
+    return render(request,'extension_login_btn.html')
