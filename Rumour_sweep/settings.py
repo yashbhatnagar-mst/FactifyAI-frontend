@@ -8,7 +8,8 @@ import os
 ALLOWED_HOSTS = [
     "localhost",
      "127.0.0.1",
-    "divyanshi09-factify-ai-backend.hf.space",  
+    "divyanshi09-factify-ai-backend.hf.space",
+    "factifyai-frontend.onrender.com", 
 ]
 
 # BACKEND_API_URL = "http://localhost:8000/api"
