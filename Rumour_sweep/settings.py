@@ -4,15 +4,12 @@ from pathlib import Path
 import os
 
 
-
 ALLOWED_HOSTS = [
-     "factifyai-frontend.onrender.com", 
-    "localhost",
-     "127.0.0.1"
-    # "divyanshi09-factify-ai-backend.hf.space",
-   
+    'localhost',
+    '127.0.0.1',
+    'factifyai-frontend.onrender.com', 
+    'your-backend-name.onrender.com',  
 ]
-
 BACKEND_API_URL = "http://localhost:8000/api"
 
 # BACKEND_API_URL = "https://divyanshi09-factify-ai-backend.hf.space/api"
