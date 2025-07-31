@@ -1,0 +1,27 @@
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+
+  <section class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white p-6 rounded-xl shadow-md w-72 text-center">
+      <!-- Heading -->
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Login with Factify Extension</h2>
+
+      <!-- Google Login Button -->
+      <button
+        onclick="window.location.href='{% url 'success' %}'"
+        class="flex items-center justify-center gap-2 w-full bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-medium py-2 px-4 rounded-lg transition">
+        <svg class="w-5 h-5" viewBox="0 0 533.5 544.3" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285f4" d="M533.5 278.4c0-17.4-1.5-34.1-4.3-50.3H272v95.2h147.1c-6.4 34-25.5 62.7-54.4 82.1l88 68.5c51.3-47.2 80.8-116.7 80.8-195.5z"/>
+          <path fill="#34a853" d="M272 544.3c73.1 0 134.4-24.2 179.1-65.6l-88-68.5c-24.4 16.4-55.6 26-91.1 26-70 0-129.3-47.3-150.5-110.6H32.5v69.4c44.7 88.3 136.6 149.3 239.5 149.3z"/>
+          <path fill="#fbbc04" d="M121.5 325.6c-10.2-30-10.2-62.2 0-92.2V164H32.5c-43.6 87.3-43.6 189.7 0 277l89-69.4z"/>
+          <path fill="#ea4335" d="M272 107.7c39.6 0 75.2 13.6 103.2 40.4l77.4-77.4C406.2 25.5 345 0 272 0 169.1 0 77.2 60.9 32.5 149.3l89 69.4C142.7 155 202 107.7 272 107.7z"/>
+        </svg>
+        <span>Login with Google</span>
+      </button>
+    </div>
+
+  </section>
+
+
