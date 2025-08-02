@@ -4,16 +4,11 @@ from pathlib import Path
 import os
 
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'factifyai-frontend.onrender.com', 
-    'your-backend-name.onrender.com',  
-]
+
 BACKEND_API_URL = "http://localhost:8000/api"
 
 # BACKEND_API_URL = "https://divyanshi09-factify-ai-backend.hf.space/api"
-# BACKEND_API_URL = "https://divyanshi09-factify-ai-backend.hf.space/api"
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +21,13 @@ SECRET_KEY = 'django-insecure-g^ux=4hr7w$g9jkc!y(sy8a63sywmn))b929k_ciwmsnr&b75)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'factifyai-frontend.onrender.com', 
+    'your-backend-name.onrender.com',  
+]
+# ALLOWED_HOSTS = []
 
 
 # Application definition

@@ -27,13 +27,35 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
     <link rel="stylesheet" href="{% static 'css/middle_content.css' %}" />
+
+    <style>
+ 
+
+  .cursor-circle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background-color:#8a4af3;;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    transition: transform 0.05s linear;
+  }
+</style>
   </head>
 
   <body
     class="bg-[var(--background-color)] text-[var(--text-color)] transition-all duration-300"
   >
     <main>
-      {% include 'navbar.html'%} {% block content %} {% include 'Home.html'%}
+
+      {% include 'navbar.html'%}
+      
+      <div class="cursor-circle" id="cursorCircle"></div> 
+      {% block content %} {% include 'Home.html'%}
       {%include 'middle_content.html'%} {% endblock %} {% include 'footer.html' %}
     </main>
 
@@ -47,6 +69,8 @@
       ></div>
     </div>
   </body>
+
+
 
   <script>
     tailwind.config = {
@@ -105,4 +129,15 @@
       });
     });
   </script>
+
+  
+  <script>
+    const cursor = document.getElementById('cursorCircle');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    });
+  </script>
+
+  
 </html>

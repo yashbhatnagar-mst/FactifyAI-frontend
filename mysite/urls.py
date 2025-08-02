@@ -23,6 +23,7 @@ urlpatterns = [
     path('success/',views.success_page,name="success"),
     path('login/',views.login_page,name="login"),
     path('logout/',views.logoutPage,name="logout"),
+    path('message/',views.message, name='message'),
     path('forgot/',views.forgot_page,name="forgot"),
     path('verification/',views.verification_page,name="verification"),
     path('new_password/',views.new_password_page,name="new_password"),

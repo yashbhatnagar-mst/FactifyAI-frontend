@@ -123,18 +123,7 @@
     </button>
     <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Settings</h2>   
   
-   
-   {% comment %} {% if messages %}
-  {% for message in messages %}
-    <div class="p-3 rounded text-white
-         {% if message.tags == 'success' %} bg-green-500
-         {% elif message.tags == 'warning' %} bg-yellow-500
-         {% elif message.tags == 'error' %} bg-red-500
-         {% else %} bg-gray-500 {% endif %}">
-      {{ message }}
-    </div>
-  {% endfor %}
-{% endif %} {% endcomment %}
+  
 
     <!-- Settings Form -->
     <form method="POST" action="">
@@ -167,7 +156,23 @@
 </a>
 
 <!-- Delete Account -->
-<form method="POST" action="/delete_account/" onsubmit="return confirm('Are you sure you want to delete your account?');">
+
+{% comment %} {% if messages %}
+  <div id="message-container" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md">
+    {% for message in messages %}
+      <div
+        class="p-3 mb-2 rounded shadow-md text-white text-center transition-all duration-300
+               {% if message.tags == 'success' %} bg-green-500
+               {% elif message.tags == 'error' %} bg-red-500
+               {% else %} bg-gray-600 {% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %} {% endcomment %}
+
+{% include 'message.html' %}
+<form method="POST" action="{% url 'delete_account' %}" onsubmit="return confirm('Are you sure you want to delete your account?');">
   {% csrf_token %}
   <button type="submit" class="w-full px-4 py-2 text-red-500 border border-red-500 rounded  hover:bg-red-500 hover:text-white">
     Delete Account
@@ -201,6 +206,8 @@
   </div>
 </div>
 </nav>
+
+
 
 <script>
 function getCookie(name) {
@@ -261,6 +268,9 @@ function closeModal(id) {
   if (modal) modal.classList.add("hidden");
 }
 </script>
+
+
+
 
 
 

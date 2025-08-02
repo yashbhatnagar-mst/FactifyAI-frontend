@@ -1,0 +1,42 @@
+
+
+<script src="https://cdn.tailwindcss.com"></script>
+<div class="flex justify-center">
+  <div class="w-full max-w-md mt-4">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="p-3 rounded text-white text-center shadow-md auto-dismiss
+          {% if 'success' in message.tags %}
+            bg-green-500
+          {% elif 'warning' in message.tags %}
+            bg-yellow-500
+          {% elif 'error' in message.tags %}
+            bg-red-500
+          {% else %}
+            bg-gray-500
+          {% endif %}
+        ">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+
+
+<!-- Inside base.html just before </body> -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const messages = document.querySelectorAll(".auto-dismiss");
+    messages.forEach((msg) => {
+      setTimeout(() => {
+        msg.classList.add("opacity-0", "transition-opacity", "duration-700");
+        setTimeout(() => {
+          msg.remove();
+        }, 700);
+      }, 3000);
+    });
+  });
+</script>
+

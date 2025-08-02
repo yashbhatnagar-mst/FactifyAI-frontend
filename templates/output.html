@@ -39,7 +39,7 @@
       >
 
       <div class="absolute top-2 right-2 flex space-x-2">
-        <label for="image-upload" title="Upload Image">
+        <label for="image-upload" title="Upload Image" style="color: var(--sec_color); font-family: var(--font-main)">
           <i class="fa-solid fa-images"></i>
         </label>
         <input
@@ -50,8 +50,8 @@
           class="hidden"
         />
 
-        <label for="audio-upload" title="Upload Audio">
-          <i class="fa-solid fa-microphone"></i>
+        <label for="audio-upload" title="Upload Audio" style="color: var(--sec_color); font-family: var(--font-main)">
+          <i class="fa-solid fa-microphone" ></i>
         </label>
         <input
           id="audio-upload"
@@ -60,12 +60,13 @@
           accept="audio/*"
           class="hidden"
         />
+        
       </div>
     </div>
     
-
     <div class="mt-6">
 
+      <p id="audio-name" class="text-sm text-gray-600 mt-2"></p>
       <p id="image-name" class="text-sm text-gray-600 mt-2"></p>
       <input id="image-upload" name="image" type="file" accept="image/*" class="hidden"/>
 
@@ -103,7 +104,7 @@
         <canvas id="credibilityMeter" class="w-full h-full"></canvas>
         <div class="absolute inset-0 flex items-center justify-center">
           <span id="meterText" class="text-2xl font-bold text-gray-800"
-            >{{ per }}%</span
+            >{{score }}%</span
           >
         </div>
       </div>
@@ -201,7 +202,7 @@
             {{ result.sentiment.label_data }}
           </span>
           <br />
-          Confidence: {{ result.sentiment.score|floatformat:2 }}
+          Confidence: {{sentiment_score|floatformat:2 }}%
         </p>
       </div>
 
@@ -214,7 +215,7 @@
           <strong>Verdict:</strong> {{ result.authenticity.verdict }}
         </p>
         <p class="text-gray-700">
-          <strong>Score:</strong> {{ per }}%
+          <strong>Authenticity Score:</strong> {{ authenticity_score }}%
         </p>
         <p class="text-sm text-gray-500 italic">
           Source: {{ result.authenticity.source }}
@@ -228,7 +229,7 @@
         </h3>
         <p class="text-gray-700">
           <strong>Bias Level:</strong> {{ result.bias_score.bias_level }} <br />
-          <strong>Bias Score:</strong> {{result.bias_score.bias_score|floatformat:2 }}
+          <strong>Bias Score:</strong> {{bias_score }}
         </p>
       </div>
 
@@ -236,9 +237,7 @@
         <h3 class="text-lg font-semibold text-gray-800 mb-2">
           <i class="fa-solid fa-book-check text-blue-600 mr-2"></i> Fact Check
         </h3>
-        {% comment %} <p class="text-gray-700">
-          <strong>Claim Checked:</strong> {{result.fact_check_result}}
-        </p> {% endcomment %}
+       
         <p class="text-gray-700">
           <strong>Claim Text:</strong> {{result.fact_check_result.claim_text}}
         </p>
@@ -266,13 +265,27 @@
         <div
           class="whitespace-pre-wrap text-gray-700 bg-gray-50 rounded p-4 border border-gray-200"
         >
-          {{ text }}
+          {{ all_text }}
         </div>
       </div>
-    </div>
+
+       <div class="bg-white border rounded p-4 shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">
+          <i class="fa-solid fa-pen-to-square text-indigo-600 mr-2"></i> Final Conclusion
+        </h3>
+        <div
+          class="whitespace-pre-wrap text-gray-700 bg-gray-50 rounded p-4 border border-gray-200"
+        >
+           {{ final_conclusion }} 
+        </div>
+      </div>
+        </div>
     {% endif %}
   </form>
 </section>
+
+
+
 
 
 <script>
@@ -288,5 +301,22 @@
     }
   });
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const audioInput = document.getElementById("audio-upload");
+    const audioNameDisplay = document.getElementById("audio-name");
+
+    audioInput.addEventListener("change", function () {
+      const file = audioInput.files[0];
+      if (file) {
+        audioNameDisplay.textContent = "Selected file: " + file.name;
+      } else {
+        audioNameDisplay.textContent = "";
+      }
+    });
+  });
+</script>
+
 
 {% endblock %}

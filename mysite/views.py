@@ -63,7 +63,6 @@ def auth_token_context(request):
         'user_authenticated': token is not None
     }
 
-
 @cookie_required(cookie_name='clarifyai_token', redirect_url='/login')
 def analyze_news(request):
     if request.method == 'POST':
@@ -85,22 +84,18 @@ def analyze_news(request):
             files['audio'] = (audio.name, audio.read(), audio.content_type)
         
         token = request.COOKIES.get('clarifyai_token')
-        print(token)
+       
         headers = {
             'Authorization': f'Bearer {token}'
         }
 
         try:
             response = requests.post(api_url, data=data, files=files,headers=headers)
-            print(response)
+            # print(response)
             if response.status_code == 200:
                 result = response.json()
 
-                # Example: extract needed values from API response
-                # score = result.get('overall_weighted_score',0)
-                score = result['authenticity']['score']
-                per= round(score * 100, 2)
-
+               
                 findings = [
                     f"Sentiment: {result.get('sentiment')}",
                     f"Authenticity: {result.get('authenticity')}",
@@ -109,22 +104,35 @@ def analyze_news(request):
 
                 text = request.POST.get('text')
                 recommendations = result.get('url', ["url"])
+     
 
-                print("Text:", text)                
-                print("URL:", url)  
-                print("Image:", image)
-                print("Audio:", audio)
-                print("API Response JSON:", result)
-
+                your_text=result['your_input']
+                sentiment_score = result['sentiment']['score']*100
+                authenticity_score = result['authenticity']['score']*100
+                authenticity_verdict = result['authenticity']['verdict']
+                bias_score = result['bias_score']['bias_score']*100
+                bias_level = result['bias_score']['bias_level']
+                authenticity_percentage = round(authenticity_score * 100, 2)
+                overall_score = result['overall_score']
+                overall_weighted_score = result['overall_weighted_score']
+                final_conclusion = result['final_conclusion']
+                print(final_conclusion)
+                print(overall_weighted_score)
 
                 return render(request, 'output.html', {
                     'text': text,
-                    'score':round(60,2),
-                    'per': round(score*100,2),
+                    'all_text':your_text,
+                    'score': overall_weighted_score,
+                    'authenticity_score':authenticity_score,
+                    'sentiment_score':sentiment_score,
+                    'bias_score':bias_score,
+                    'final_conclusion':final_conclusion,
                     'findings': findings,
                     'recommendations': recommendations,
-                    'result':result
-                    
+                    'result':result,
+                    'url':url,
+                    'audio':audio,
+                    'image':image,
                 })
 
             else:
@@ -146,7 +154,7 @@ def analyze_news(request):
         
 
 
-    return render(request, 'output.html')
+    return render(request,'output.html')
 
 
 def signup_page(request):
@@ -518,53 +526,69 @@ def settings_page(request):
 
 @cookie_required(cookie_name='clarifyai_token', redirect_url='/login')
 @never_cache
-def delete_account(request):
-    print(" DELETE ACCOUNT VIEW HIT")
-    if request.method == 'POST' and request.user.is_authenticated:
 
-        # Print karao user aur email/token for debugging
-        print("User:", request.user)
+@cookie_required(cookie_name='clarifyai_token', redirect_url='/login')
+@never_cache
+
+
+
+@cookie_required(cookie_name='clarifyai_token', redirect_url='/login')
+@never_cache
+def delete_account(request):
+    print("DELETE ACCOUNT VIEW HIT")
+    print("Cookies available:", request.COOKIES)
+
+    if request.method == 'POST' :
+        print("SD")
         clarify_token = request.COOKIES.get('clarifyai_token')
-        print("Token from cookie:", clarify_token)
+        
 
         if not clarify_token:
             messages.error(request, "Authentication token missing. Please log in again.")
-            return redirect('output')
+            return redirect('login')
 
         headers = {
             'Authorization': f'Bearer {clarify_token}',
             'Accept': 'application/json',
         }
 
-        # Final API URL — ensure base + route match backend
         api_url = f"{settings.BACKEND_API_URL}/auth/delete/"
         print("Calling FastAPI DELETE to:", api_url)
 
         try:
-            resp = requests.delete(api_url, headers=headers, timeout=10)
-            print("Response status:", resp.status_code)
-            print("Response body:", resp.text)
-            data = resp.json() if resp.ok else {}
+            response = requests.delete(api_url, headers=headers, timeout=10)
+            print("FastAPI response:", response.status_code, response.text)
+            data = response.json() if response.ok else {}
         except Exception as e:
-            print("Request to FastAPI failed:", e)
-            messages.error(request, "Server error deleting account. Please try later.")
+            print("Exception during FastAPI call:", e)
+            messages.error(request, "Server error while deleting account.")
             return redirect('output')
 
-        # Response handling
-        if resp.status_code == 200 and data.get("success"):
-            # successful deletion in backend
+        if response.status_code == 200 and data.get("success"):
             user = request.user
-            logout(request)
-            user.delete()
+            logout(request)  # clears session
+            try:
+                user.delete()
+            except Exception as e:
+                print("Error deleting Django user:", e)
+
+            # Prepare response and delete cookies
+            res = redirect("signup")
+            res.delete_cookie("clarifyai_token", path="/")
+            res.delete_cookie("sessionid", path="/")
+            res.delete_cookie("csrftoken", path="/")
+
             messages.success(request, "Your account was deleted successfully.")
-            return redirect('base')
+            return res
         else:
-            err = data.get("message") or data.get("error") or "Could not delete account."
+            err = data.get("error") or "Account deletion failed from server."
             messages.error(request, err)
             return redirect('output')
 
-    # agar GET request ho
-    return redirect('output')
+    # GET or not authenticated
+    messages.error(request, "Unauthorized request.")
+    return redirect('login')
+
 
 
 @method_decorator(login_required, name='dispatch')
@@ -575,70 +599,20 @@ class CustomPasswordChangeView(PasswordChangeView):
 
 
 def trending(request):
-    trending_news = [
-        {
-            'title': 'AI Shakes the World Economy',
-            'description': 'Artificial Intelligence is revolutionizing industries from healthcare to finance...',
-            'image_url': 'https://source.unsplash.com/featured/?ai,technology',
-            'link': 'https://news.example.com/ai-impact'
-        },
-        {
-            'title': 'Massive Heatwaves Hit Europe',
-            'description': 'Europe is facing one of the hottest summers in history with temperatures soaring above 40°C...',
-            'image_url': 'https://source.unsplash.com/featured/?heatwave,europe',
-            'link': 'https://news.example.com/europe-heat'
-        },
-        {
-            'title': 'Olympics 2025: Records Broken',
-            'description': 'Athletes from around the world have set new records in the latest Olympic games...',
-            'image_url': 'https://source.unsplash.com/featured/?olympics,sports',
-            'link': 'https://news.example.com/olympics'
-        },
-        {
-            'title': 'Global Markets Rally Amid Tech Boom',
-            'description': 'Tech stocks lead global market recovery, with NASDAQ hitting an all-time high...',
-            'image_url': 'https://source.unsplash.com/featured/?stocks,finance',
-            'link': 'https://news.example.com/markets-rally'
-        },
-        {
-            'title': 'Wildfires Threaten Thousands in California',
-            'description': 'Dry weather and high winds have escalated wildfires across California...',
-            'image_url': 'https://source.unsplash.com/featured/?wildfire,california',
-            'link': 'https://news.example.com/california-wildfires'
-        },
-        {
-            'title': 'Breakthrough in Cancer Research Announced',
-            'description': 'Scientists unveil a promising new therapy targeting resistant cancer cells...',
-            'image_url': 'https://source.unsplash.com/featured/?cancer,research',
-            'link': 'https://news.example.com/cancer-breakthrough'
-        },
-        {
-            'title': 'NASA Prepares for Mars Mission',
-            'description': 'NASA’s Mars 2030 mission enters final planning stages...',
-            'image_url': 'https://source.unsplash.com/featured/?nasa,mars',
-            'link': 'https://news.example.com/nasa-mars'
-        },
-        {
-            'title': 'Electric Vehicles Set New Sales Records',
-            'description': 'EVs outsell gas-powered cars in several major markets...',
-            'image_url': 'https://source.unsplash.com/featured/?electric,vehicles',
-            'link': 'https://news.example.com/ev-sales'
-        },
-        {
-            'title': 'Cybersecurity Breach Affects Millions',
-            'description': 'A major data breach has compromised the personal data of millions...',
-            'image_url': 'https://source.unsplash.com/featured/?cybersecurity,data',
-            'link': 'https://news.example.com/data-breach'
-        },
-        {
-            'title': 'Climate Summit Ends with Global Pledge',
-            'description': 'World leaders agree on new climate targets to reduce emissions...',
-            'image_url': 'https://source.unsplash.com/featured/?climate,summit',
-            'link': 'https://news.example.com/climate-pledge'
-        },
-    ]
-    return render(request, 'trending.html', {'trending_news':trending_news})
+    try:
+        response = requests.get(f"{settings.BACKEND_API_URL}/news/latest/")
+        response.raise_for_status()
+        data = response.json()
+        print(data)
+        
+        articles = data.get("data", {}).get("articles", [])
+        print(articles)
+       
+    except Exception as e:
+        print(" Error fetching news:", e)
+        articles = []  # fallback to empty list or static
 
+    return render(request, "trending.html", {"trending_news":articles})
 
 
 def term(request):
@@ -650,3 +624,6 @@ def success_page(request):
 
 def extension_btn(request):
     return render(request,'extension_login_btn.html')
+
+def message(request):
+    return render(request,'message.html')
