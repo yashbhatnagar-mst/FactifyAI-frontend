@@ -27,6 +27,12 @@ ALLOWED_HOSTS = [
     'factifyai-frontend.onrender.com', 
     'your-backend-name.onrender.com',  
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://factifyai-frontend.onrender.com"
+]
+
+
 # ALLOWED_HOSTS = []
 
 
